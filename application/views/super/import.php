@@ -5,7 +5,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      个税信息导入
+      账单导入
     </h1>
   </section>
 
@@ -30,8 +30,8 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body">
-            <div>  
-              <form action="<?php echo base_url('super_admin/wage_tax_import') ?>" method="post"
+            <div>
+              <form action="<?php echo base_url('super_admin/wage_import') ?>" method="post"
                   name="frmExcelImport" id="frmExcelImport" enctype="multipart/form-data">
                   <fieldset>
                   <legend></legend>
@@ -55,8 +55,9 @@
                       <!-- Button -->
                       <div class="controls">
                         <button type="submit" id="submit" name="import" class="btn btn-warning" >上传</button>
-                        <a class="btn btn-info" href="<?php echo base_url($path) ?>">下载模板</a>
-                        <a class="btn btn-primary" href="<?php echo base_url('super_admin/searchtax') ?>">返回</a>
+                        <!--<a class="btn btn-info" href="<?php echo base_url($path) ?>">下载模板</a>-->
+                        <a class="btn btn-info" href="javascript:void(0)">下载模板</a>
+                        <a class="btn btn-primary" href="<?php echo base_url('super_admin/search') ?>">返回</a>
                       </div>
                     </div>
                   </fieldset>
@@ -73,14 +74,14 @@
 <!-- /.content-wrapper -->
 <script type="text/javascript">
     $(document).ready(function() { 
-      $("#taxInfo").addClass('active');
-      $("#searchtaxMainMenu").addClass('active');
+      //$("#uploadWageFileNav").addClass('active');
+      $("#searchwageGetherMainMenu").addClass('active');
       $(".form_datetime").datetimepicker({
         bootcssVer:3,
         format: "yyyy-mm",
         startView:3,
         minView:3,
-        startDate:"2019-01",
+        startDate:"2017-01",
         autoclose:true  
       });
     });

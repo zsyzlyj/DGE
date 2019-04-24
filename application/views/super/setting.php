@@ -93,7 +93,7 @@
                   </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
                 <?php if(strstr($_SERVER['PHP_SELF'],'wage')):?>
-                <a href="<?php echo base_url('super_wage/search') ?>" class="btn btn-warning">返回</a>
+                <a href="<?php echo base_url('super_admin/search') ?>" class="btn btn-warning">返回</a>
                 <?php endif; ?>
                 <?php if(strstr($_SERVER['PHP_SELF'],'holiday')):?>
                 <a href="<?php echo base_url('super_holiday/') ?>" class="btn btn-warning">返回</a>

@@ -43,11 +43,11 @@
                     <?php endif; ?>
                   <?php endforeach; ?>
                     <td>
-                      <form action="<?php echo base_url('super_wage/switch_function')?>" method="post" style="margin:0px;display:inline;">
+                      <form action="<?php echo base_url('super_admin/switch_function')?>" method="post" style="margin:0px;display:inline;">
                         <input type="hidden" name="func_name_on" value="<?php echo $v['name'];?>">
                         <button type="submit" class="btn btn-success">开启</button>
                       </form>
-                      <form action="<?php echo base_url('super_wage/switch_function')?>" method="post" style="margin:0px;display:inline;">
+                      <form action="<?php echo base_url('super_admin/switch_function')?>" method="post" style="margin:0px;display:inline;">
                         <input type="hidden" name="func_name_off" value="<?php echo $v['name'];?>">
                         <button type="submit" class="btn btn-danger">关闭</button>
                       </form>

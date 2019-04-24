@@ -62,7 +62,7 @@
                           <h4 style="text-align:left">确认删除吗？</h4>
                         </div>
                         <div class="modal-footer">   
-                          <form action='<?php echo base_url('super_wage/wage_doc_delete')?>' method='POST'>
+                          <form action='<?php echo base_url('super_admin/wage_doc_delete')?>' method='POST'>
                           <input type='hidden' value="<?php echo $v['number']; ?>" name='time'/>
                           <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                           <button type="submit" class="btn btn-success btn-ok">确认删除</a>

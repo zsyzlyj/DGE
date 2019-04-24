@@ -28,7 +28,7 @@
           <!-- /.box-header -->
           <div class="box-body">
             <div class="col-md-12">
-              <form action="<?php echo base_url('super_wage/wage_proof');?>" method="post">
+              <form action="<?php echo base_url('super_admin/wage_proof');?>" method="post">
                 <label>请输入要搜索的姓名</label>
                 <input name="user_name"  value=""/>
                 <button class='btn btn-info'><i class="fa fa-search"></i></button>
@@ -51,17 +51,17 @@
                             <td style="border-color:silver;"><?php echo $b;?></td>
                           <?php endforeach; ?>
                           <td style="border-color:silver;">
-                            <form action="<?php echo base_url('super_wage/proof_creator');?>" method="POST" target="_blank" style="display:inline">
+                            <form action="<?php echo base_url('super_admin/proof_creator');?>" method="POST" target="_blank" style="display:inline">
                             <input name="user_id" type="hidden" value="<?php echo $v['user_id'];?>">
                             <input name="type" type="hidden" value="收入证明">
                             <button class="btn">收入证明</button>
                             </form>
-                            <form action="<?php echo base_url('super_wage/proof_creator');?>" method="POST" target="_blank" style="display:inline">
+                            <form action="<?php echo base_url('super_admin/proof_creator');?>" method="POST" target="_blank" style="display:inline">
                             <input name="user_id" type="hidden" value="<?php echo $v['user_id'];?>">
                             <input name="type" type="hidden" value="收入证明（农商银行）">
                             <button class="btn">收入证明（农商银行）</button>
                             </form>
-                            <form action="<?php echo base_url('super_wage/proof_creator');?>" method="POST" target="_blank" style="display:inline">
+                            <form action="<?php echo base_url('super_admin/proof_creator');?>" method="POST" target="_blank" style="display:inline">
                             <input name="user_id" type="hidden" value="<?php echo $v['user_id'];?>">
                             <input name="type" type="hidden" value="收入证明（公积金）">
                             <button class="btn">收入证明（公积金）</button>

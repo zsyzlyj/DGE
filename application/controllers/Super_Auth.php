@@ -31,67 +31,43 @@ class Super_Auth extends Admin_Controller{
 		$this->logged_in_super();
 		$this->form_validation->set_rules('user_id', 'user_id', 'required');
 		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('verify_code', 'verify_code', 'required');
 		if(array_key_exists('image', $_SESSION)){
 			if(file_exists($_SESSION['image'])){
 				unlink($_SESSION['image']);
 			}
 		}
         if ($this->form_validation->run() == TRUE){
-			if(isset($_SESSION['code'])){
-				if(strtolower($this->input->post('verify_code'))===strtolower($_SESSION['code']) or $this->input->post('verify_code')=="0"){
-					// true case
-					$id_exists = $this->model_super_auth->check_id(strtoupper($this->input->post('user_id')));
-					if($id_exists == TRUE){
-						$login = $this->model_super_auth->login($this->input->post('user_id'), $this->input->post('password'));
-						if($login){
-							$log=array(
-								'user_id' => $login['user_id'],
-								'username' => $login['user_id'],
-								'login_ip' => $_SERVER["REMOTE_ADDR"],
-								'staff_action' => '超管登录',
-								'action_time' => date('Y-m-d H:i:s')
-							);
-							$this->model_log_action->create($log);
-							$logged_in_sess = array(
-								'user_id' => $login['user_id'],
-								'permission' => $login['permission'],
-								'logged_in_super' => TRUE
-							);
-							$this->session->set_userdata($logged_in_sess);
-							switch($login['permission']){
-								case '工资':
-									redirect('super_wage/search', 'refresh');
-									break;
-								case '休假':
-									redirect('super_holiday/index', 'refresh');
-									break;
-								case '人员':
-									redirect('super_hr/hr_search', 'refresh');
-									break;
-								default:
-									break;
-							}
-						}
-						else{
-							$this->data['errors'] = '密码错误';
-							$this->load->view('super/login', $this->data);
-						}
-					}
-					else{
-						$this->data['errors'] = '用户不存在，请联系管理员';
-						$this->load->view('super/login', $this->data);
-					}
+			
+			$id_exists = $this->model_super_auth->check_id(strtoupper($this->input->post('user_id')));
+			if($id_exists == TRUE){
+				$login = $this->model_super_auth->login($this->input->post('user_id'), $this->input->post('password'));
+				if($login){
+					/*
+					$log=array(
+						'user_id' => $login['user_id'],
+						'username' => $login['user_id'],
+						'login_ip' => $_SERVER["REMOTE_ADDR"],
+						'staff_action' => '超管登录',
+						'action_time' => date('Y-m-d H:i:s')
+					);
+					$this->model_log_action->create($log);
+					*/
+					$logged_in_sess = array(
+						'user_id' => $login['user_id'],
+						'permission' => $login['permission'],
+						'logged_in_super' => TRUE
+					);
+					$this->session->set_userdata($logged_in_sess);
+					redirect('super_admin/index', 'refresh');
 				}
 				else{
-					$this->data['errors'] = '验证码错误';
+					$this->data['errors'] = '密码错误';
 					$this->load->view('super/login', $this->data);
 				}
-				
 			}
 			else{
-				// 打开登录界面
-				$this->load->view('super/login',$this->data);
+				$this->data['errors'] = '用户不存在，请联系管理员';
+				$this->load->view('super/login', $this->data);
 			}
 		}
 		else{// 打开登录界面
@@ -114,6 +90,7 @@ class Super_Auth extends Admin_Controller{
 			$this->session->sess_destroy();
 			redirect('super_auth/login', 'refresh');
 		}
+		/*
 		$log=array(
 			'user_id' => $this->data['user_id'],
 			'username' => $this->data['user_id'],
@@ -122,6 +99,7 @@ class Super_Auth extends Admin_Controller{
 			'action_time' => date('Y-m-d H:i:s')
 		);
 		$this->model_log_action->create($log);
+		*/
 		$this->session->sess_destroy();
 		redirect('super_auth/login', 'refresh');
 	}

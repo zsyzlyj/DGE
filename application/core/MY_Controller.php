@@ -43,7 +43,7 @@ class Admin_Controller extends MY_Controller
 		$session_data = $this->session->userdata();
 		if($session_data['logged_in_super'] == TRUE){
 			if($session_data['permission'] == '工资'){              
-				redirect('super_wage/index', 'refresh');
+				redirect('super_admin/index', 'refresh');
 			}
 			elseif($session_data['permission'] == '休假'){              
 				redirect('super_holiday/index', 'refresh');

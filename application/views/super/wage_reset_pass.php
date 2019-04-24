@@ -50,7 +50,7 @@
                         <td><?php echo $v['user_id']; ?></td>
                         <td><?php echo $v['dept']; ?></td>
                         
-                        <form action="<?php echo base_url('super_wage/reset_pass/') ?>" method="post">  
+                        <form action="<?php echo base_url('super_admin/reset_pass/') ?>" method="post">  
                         <td>
                           <input id="user_id" name="user_id" type="hidden" value="<?php echo $v['user_id'] ?>"/>
                           <button class="btn btn-success" type="submit"><i class="fa fa-refresh"> 初始化密码</i></button>

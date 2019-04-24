@@ -30,7 +30,7 @@
           <!-- /.box-header -->
           <div class="box-body">
             <div>
-              <form action="<?php echo base_url('super_wage/searchsp')?>" class="form-horizontal" method="post" role="form">
+              <form action="<?php echo base_url('super_admin/searchsp')?>" class="form-horizontal" method="post" role="form">
               <fieldset>
                 <legend></legend>
                 <div class="form-group">
@@ -43,7 +43,7 @@
                     <?php endif;?>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                    <span class="input-group-btn"><a href="<?php echo base_url('super_wage/wage_sp_import') ?>" class="btn btn-warning" style="width:80px;margin-left:5px">上传</a></span>
+                    <span class="input-group-btn"><a href="<?php echo base_url('super_admin/wage_sp_import') ?>" class="btn btn-warning" style="width:80px;margin-left:5px">上传</a></span>
                     <span class="input-group-btn"><button class='btn btn-info' style="width:80px;margin-left:5px">查询</button></span>
                     </form>
                     <span class="input-group-btn"><a href="javascript:void(0)" class="btn btn-danger"  style="width:80px;margin-left:5px" data-toggle="modal" data-target="#myModal">删除</a></span>
@@ -57,7 +57,7 @@
                           <h4 style="text-align:left">确认删除吗？</h4>
                         </div>
                         <div class="modal-footer">
-                          <form action='<?php echo base_url('super_wage/wage_sp_delete')?>' method='POST'>
+                          <form action='<?php echo base_url('super_admin/wage_sp_delete')?>' method='POST'>
                           <?php if($chosen_month):?>
                           <input type='hidden' value="<?php echo $chosen_month;?>" name='time'/>
                           <?php else:?>

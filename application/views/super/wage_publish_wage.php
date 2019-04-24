@@ -28,7 +28,7 @@
 
           <div class="box">
             <!-- /.box-header -->
-            <form role="form" action="<?php base_url('super_wage/publish_wage') ?>" method="post" id="quill_form">
+            <form role="form" action="<?php base_url('super_admin/publish_wage') ?>" method="post" id="quill_form">
               <div class="box-body">
 
                 <?php echo validation_errors(); ?>
@@ -110,7 +110,7 @@
 
               <div class="box-footer">
                 <button type="submit" onclick="t(this)" class="btn btn-success">发布</button>
-                <a href="<?php echo base_url('super_wage/notification') ?>" class="btn btn-warning">返回</a>
+                <a href="<?php echo base_url('super_admin/notification') ?>" class="btn btn-warning">返回</a>
               </div>
             </form>
           </div>

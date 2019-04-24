@@ -26,7 +26,7 @@
           <div class="box-body">
             <div class="row">
               <div class="col-md-6 col-xs-6">
-              <form action="<?php echo base_url('super_wage/wage_doc_import') ?>" method="post"
+              <form action="<?php echo base_url('super_admin/wage_doc_import') ?>" method="post"
                   name="frmPDFImport" id="frmPDFImport" enctype="multipart/form-data">
                   <div>
                       <label><h4>选择上传文件</h4></label> 
@@ -111,7 +111,7 @@
                               <h4 style="text-align:left">确认删除吗？</h4>
                             </div>
                             <div class="modal-footer">   
-                              <form action='<?php echo base_url('super_wage/wage_doc_delete')?>' method='POST'>
+                              <form action='<?php echo base_url('super_admin/wage_doc_delete')?>' method='POST'>
                               <input type='hidden' value="<?php echo $b['number']; ?>" name='time'/>
                               <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                               <button type="submit" class="btn btn-success btn-ok">确认删除</a>
@@ -213,6 +213,6 @@
         type_array[i]=cells[1].innerHTML;
 
       }
-      post('<?php echo base_url("super_wage/wage_doc_order")?>', type_array);
+      post('<?php echo base_url("super_admin/wage_doc_order")?>', type_array);
     }
   </script>

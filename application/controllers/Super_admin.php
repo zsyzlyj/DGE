@@ -2,41 +2,16 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Super_wage extends Admin_Controller {
+class Super_admin extends Admin_Controller {
 	public function __construct(){
         parent::__construct();
         $this->data['page_title'] = 'Super';
-        $this->load->model('model_plan');
-        $this->load->model('model_notice');
-        $this->load->model('model_dept');
-        $this->load->model('model_users');
-        $this->load->model('model_all_user');
-        $this->load->model('model_wage_tag');
-        $this->load->model('model_wage_attr');
-        $this->load->model('model_wage_apply');
-        $this->load->model('model_wage_apply_status');
-        $this->load->model('model_wage_notice');
-        $this->load->model('model_wage');
-        $this->load->model('model_wage_doc'); 
-        $this->load->model('model_func');
-        $this->load->model('model_wage_sp');
-        $this->load->model('model_wage_sp_attr');
-        $this->load->model('model_wage_tax');
-        $this->load->model('model_wage_tax_attr'); 
+        $this->load->model('model_daily_account');
         $this->data['user_name'] = $this->session->userdata('user_id');
         $this->data['user_id'] = $this->session->userdata('user_id');
         if($this->data['user_name']==NULL){
             redirect('super_auth/login','refresh');
         }
-        $unread=0;
-        $this->data['apply_data']=$this->model_wage_apply->getApplyData();
-        foreach($this->data['apply_data'] as $k => $v){
-            if(strstr($v['feedback_status'],'未')){
-                $unread++;
-            }
-        }
-        $this->data['unread']=$unread;
-        $this->data['notice'] = $this->model_notice->getNoticeLatestWage();
         $this->data['permission']=$this->session->userdata('permission');
     }
     /*
@@ -47,108 +22,9 @@ class Super_wage extends Admin_Controller {
     ============================================================
     */ 
     public function index(){
-        $this->search();
-    }
-    public function this_month(){
-        $this->data['wage_data']=$this->model_wage->getWageData();
-        $this->data['attr_data']=$this->model_wage_attr->getWageAttrData();
-        $counter=0;
-        if($this->data['attr_data']){
-            foreach($this->data['attr_data'] as $k => $v){
-                if($v=='月度绩效工资小计'){
-                    $this->data['yuedustart']=$counter;
-                }
-                if($v=='省核专项奖励小计'){
-                    $this->data['yueduend']=$counter-1;
-                    $this->data['shengzhuanstart']=$counter;
-                }
-                if($v=='分公司专项奖励小计'){
-                    $this->data['shengzhuanend']=$counter-1;
-                    $this->data['fengongsistart']=$counter;
-                }
-                if($v=='其他小计'){
-                    $this->data['fengongsiend']=$counter-1;
-                    $this->data['qitastart']=$counter;
-                }
-                if($v=='教育经费小计'){
-                    $this->data['qitaend']=$counter-1;
-                    $this->data['jiaoyustart']=$counter;
-                }
-                if($v=='福利费小计'){
-                    $this->data['jiaoyuend']=$counter-1;
-                    $this->data['fulistart']=$counter;
-                }
-                if($v=='当月月应收合计'){
-                    $this->data['fuliend']=$counter-1;
-                    $this->data['koufeistart']=$counter+1;
-                }
-                if($v=='扣款小计'){
-                    $this->data['koufeiend']=$counter;
-                }
-                if($v=='本月工资差异说明'){
-                    $this->data['trueend']=$counter+1;
-                    break;
-                }
-                $counter++;
-            }
-        }
-        $this->render_super_template('super/wage',$this->data);
-    }
-    public function search_excel($doc_name){
-        $this->load->library('phpexcel');//ci框架中引入excel类
-        $this->load->library('PHPExcel/IOFactory');
-        
-        $dir='uploads/wage';
-        $data=array();
-        if(is_dir($dir)){
-            $files = array();
-            $child_dirs = scandir($dir);
-            foreach($child_dirs as $child_dir){
-                if($child_dir != '.' && $child_dir != '..'){
-                    if(is_dir($dir.'/'.$child_dir)){
-                        $files[$child_dir] = my_scandir($dir.'/'.$child_dir);
-                    }else{
-                        if(strstr($child_dir,$doc_name)){
-                            if(strstr($child_dir,'xlsx')){
-                                $reader = new PHPExcel_Reader_Excel2007();
-                            }
-                            else{
-                                if(strstr($child_dir, 'xls')){
-                                    $reader = IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
-                                }
-                            }
-                            $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ','BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ','CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO', 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ','DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG', 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY', 'DZ'); 
-                            $PHPExcel = $reader->load($dir.'/'.$child_dir, 'utf-8'); // 载入excel文件
-                            $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
-                            $highestRow = $sheet->getHighestRow(); // 取得总行数
-                            $highestColumm = $sheet->getHighestColumn(); // 取得总列数
-                        
-                            $columnCnt = array_search($highestColumm, $cellName); 
+        $this->data['data']=$this->model_daily_account->getData();
 
-                            $data = array();
-                            for($rowIndex = 4; $rowIndex <= $highestRow; $rowIndex++){        //循环读取每个单元格的内容。注意行从1开始，列从A开始
-                                for($colIndex = 0; $colIndex <= $columnCnt; $colIndex++){
-                                    $cellId = $cellName[$colIndex].$rowIndex;  
-                                    $cell = $sheet->getCell($cellId)->getValue();
-                                    $cell = $sheet->getCell($cellId)->getCalculatedValue();
-                                    if($cell instanceof PHPExcel_RichText){ //富文本转换字符串
-                                        $cell = $cell->__toString();
-                                    }
-                                    if($cell!='' or $cell=='0'){
-                                        $data[$rowIndex][$colIndex] = $cell;
-                                    }
-                                    if($cell=='' and $colIndex==$columnCnt){
-                                        $data[$rowIndex][$colIndex] = $cell;
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-            }
-        }
-        return $data;
+        $this->render_super_template('super/admin',$this->data);
     }
     public function search(){
         $this->data['wage_data']='';
@@ -160,57 +36,155 @@ class Super_wage extends Admin_Controller {
             $doc_name=substr($_POST['chosen_month'],0,4).substr($_POST['chosen_month'],5,6);
             if(strlen($doc_name)<=7 and $doc_name!=''){
                 $this->data['attr_data']=$this->model_wage_attr->getWageAttrDataByDate($doc_name);
-                $this->data['wage_notice']=$this->model_wage_notice->getWageNoticeByDate($doc_name)['content'];
-                if(!empty($this->data['attr_data'])){
-                    $this->data['wage_data']=$this->model_wage->getWageByDate($doc_name);
-                    $counter=0;
-                    foreach($this->data['attr_data'] as $k => $v){
-                        if($v=='月度绩效工资小计'){
-                            $this->data['yuedustart']=$counter;
-                        }
-                        if($v=='省核专项奖励小计'){
-                            $this->data['yueduend']=$counter-1;
-                            $this->data['shengzhuanstart']=$counter;
-                        }
-                        if($v=='分公司专项奖励小计'){
-                            $this->data['shengzhuanend']=$counter-1;
-                            $this->data['fengongsistart']=$counter;
-                        }
-                        if($v=='其他小计'){
-                            $this->data['fengongsiend']=$counter-1;
-                            $this->data['qitastart']=$counter;
-                        }
-                        if($v=='教育经费小计'){
-                            $this->data['qitaend']=$counter-1;
-                            $this->data['jiaoyustart']=$counter;
-                        }
-                        if($v=='福利费小计'){
-                            $this->data['jiaoyuend']=$counter-1;
-                            $this->data['fulistart']=$counter;
-                        }
-                        if($v=='当月月应收合计'){
-                            $this->data['fuliend']=$counter-1;
-                            $this->data['koufeistart']=$counter+1;
-                        }
-                        if($v=='扣款小计'){
-                            $this->data['koufeiend']=$counter;
-                        }
-                        if($v=='本月工资差异说明'){
-                            $this->data['trueend']=$counter+1;
-                            break;
-                        }
-                        $counter++;
+            }
+            $this->render_super_template('super/search',$this->data);
+        }
+        else{
+            $this->render_super_template('super/search',$this->data);
+        }
+    }
+    public function excel_put(){
+        $this->load->library('phpexcel');//ci框架中引入excel类
+        $this->load->library('PHPExcel/IOFactory');
+        //先做一个文件上传，保存文件
+        $path=$_FILES['file'];
+        $filePath = 'uploads/'.$path['name'];
+        move_uploaded_file($path['tmp_name'],$filePath);
+        //根据上传类型做不同处理 
+        if(strstr($_FILES['file']['name'],'xlsx')){
+            $reader = new PHPExcel_Reader_Excel2007();
+        }
+        else{
+            if(strstr($_FILES['file']['name'], 'xls')){
+                $reader = IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
+            }
+        }
+
+        $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ','BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ','CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO', 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ','DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG', 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY', 'DZ'); 
+        $PHPExcel = $reader->load($filePath, 'utf-8'); // 载入excel文件
+        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+    
+        $columnCnt = array_search($highestColumm, $cellName); 
+
+        $this->model_daily_account->deleteAll();
+        $account_set=array();
+        $user_set=array();
+        $attr=array();
+        for($rowIndex = 1; $rowIndex <= $highestRow; $rowIndex++){        //循环读取每个单元格的内容。注意行从1开始，列从A开始
+            for($colIndex = 0; $colIndex <= $columnCnt; $colIndex++){
+                $cellId = $cellName[$colIndex].$rowIndex;  
+                $cell = $sheet->getCell($cellId)->getValue();
+                $cell = $sheet->getCell($cellId)->getCalculatedValue();
+                if($cell instanceof PHPExcel_RichText){ //富文本转换字符串
+                    $cell = $cell->__toString();
+                }
+                $b=$cell;
+                if($rowIndex==1){
+                    array_push($attr,$b);
+                }
+                elseif($rowIndex>1){
+                    switch($attr[$colIndex]){
+                        case 'ACCT_MONTH':$date_tag=$b;break;
+                        case 'USER_NO':$user_id=$b;break;
+                        case 'DEVICE_NUMBER':$phone_number=$b;break;
+                        case 'CHARGE':$charge=$b;break;
+                        case 'DEPT_NO':$dept_id=$b;break;
+                        case 'FGS':$fgs=$b;break;
+                        case 'PRODUCT_ID':$product_id=$b;break;
+                        case 'PRODUCT_NAME':$product_name=$b;break;
+                        case 'DEVELOP_STAFF_ID':$staff_id=$b;break;
+                        case 'STAFF_NAME':$staff_name=$b;break;
+                        case 'LX':$account_type=$b;break;
+                        case 'DEVLOP_DEPART':$develop_dept=$b;break;
+                        case 'VPN_NO':$vip_id=$b;break;
+                        case 'JTMC':$vip_name=$b;break;
+                        case 'ACTION_NAME':$activity=$b;break;
+                        case 'RECV_TIME':$activity_date=$b;break;
+                        case 'IN_DATE':$in_time=$b;break;
+                        case 'STATE_NAME':$status=$b;break;
+                        case 'CUST_NAME':$customer_name=$b;break;
+                        case 'RWNY':$in_date=$b;break;
+                        case 'YWLX':$celler_type1=$b;break;
+                        case 'YWLX2':$celler_type2=$b;break;
+                        case 'PROLX':$celler_product_type=$b;break; 
+                        default:break;
+                        #case 'STATE_NAME':$status=gmdate('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($b));break;
                     }
                 }
             }
-            
-            $this->render_super_template('super/wage_search',$this->data);
+            if($rowIndex>1){
+                //新建账单对象
+                $row_data=array(
+                    'date_tag' => $date_tag,
+                    'user_id' => $user_id,
+                    'phone_number' => $phone_number,
+                    'charge' => $charge,
+                    'dept_id' => $dept_id,
+                    'fgs' => $fgs,
+                    'product_id' => $product_id,
+                    'product_name' => $product_name,
+                    'staff_id' => $staff_id,
+                    'staff_name' => $staff_name,
+                    'account_type' => $account_type,
+                    'develop_dept' => $develop_dept,
+                    'vip_id' => $vip_id,
+                    'vip_name' => $vip_name,
+                    'activity' => $activity,
+                    'activity_date' => $activity_date,
+                    'in_time' => $in_time,
+                    'in_date' => $in_date,
+                    'status' => $status,
+                    'customer_name' => $customer_name,
+                    'celler_type1' => $celler_type1,
+                    'celler_type2' => $celler_type2,
+                    'celler_product_type' => $celler_product_type
+                );
+                array_push($account_set,$row_data);
+                unset($row_data);
+                /*
+                //新建登陆用户
+                //如果数据库中没有这个用户，那么就创建记录，否则不做任何事
+                if(!$this->model_users->checkUserById($user_id)){
+                    #$this->model_users->update();
+                    $user_data=array(
+                        'username' => $name,
+                        'user_id' => $user_id,
+                        'password' => md5(substr($user_id,-6)),
+                        'permission' => 3,
+                    );
+                    array_push($user_set,$user_data);
+                    unset($user_data);
+                }
+                */
+            }
+        }
+
+        $this->model_daily_account->createbatch($account_set);
+        #$this->model_users->createbatch($user_set);
+        
+        unset($wage_set);
+        #unset($user_set);
+    }
+    public function admin_import($filename=NULL){
+        $this->data['path'] = '#';
+        if($_FILES){
+            if($_FILES['file']){
+                if($_FILES['file']['error'] > 0){
+                    $this->session->set_flashdata('error', '请选择要上传的文件！');
+                    $this->render_super_template('super/admin_import',$this->data);
+                }
+                else{
+                    $this->excel_put();
+                    $this->index();
+                }
+            }
         }
         else{
-            $this->render_super_template('super/wage_search',$this->data);
-        }
+            $this->render_super_template('super/admin_import',$this->data);
+        } 
     }
-    
     /**
     *数字金额转换成中文大写金额的函数
     *String Int $num 要转换的小写数字或小写字符串
@@ -764,155 +738,7 @@ class Super_wage extends Admin_Controller {
         }
         $this->render_super_template('super/wage_proof_search',$this->data);
     }
-    public function wage_tag_excel_put(){
-        $this->load->library('phpexcel');//ci框架中引入excel类
-        $this->load->library('PHPExcel/IOFactory');
-        //先做一个文件上传，保存文件
-        $path=$_FILES['file'];
-        $filePath = 'uploads/wage_user/'.$path['name'];
-        move_uploaded_file($path['tmp_name'],$filePath);
-        //根据上传类型做不同处理 
-        if(strstr($_FILES['file']['name'],'xlsx')){
-            $reader = new PHPExcel_Reader_Excel2007();
-        }
-        else{
-            if(strstr($_FILES['file']['name'], 'xls')){
-                $reader = IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
-            }
-        }
-
-        $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ','BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ','CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO', 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ','DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG', 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY', 'DZ'); 
-        $PHPExcel = $reader->load($filePath, 'utf-8'); // 载入excel文件
-        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
-        $highestRow = $sheet->getHighestRow(); // 取得总行数
-        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
     
-        $columnCnt = array_search($highestColumm, $cellName); 
-
-        $this->model_wage_tag->deleteAll();
-        #$this->model_users->deleteAll();
-        $this->model_dept->deleteAll();
-        $wage_set=array();
-        $user_set=array();
-        $all_dept=array();
-        $dept_set=array();
-        $attr=array();
-        for($rowIndex = 1; $rowIndex <= $highestRow; $rowIndex++){        //循环读取每个单元格的内容。注意行从1开始，列从A开始
-            for($colIndex = 0; $colIndex <= $columnCnt; $colIndex++){
-                $cellId = $cellName[$colIndex].$rowIndex;  
-                $cell = $sheet->getCell($cellId)->getValue();
-                $cell = $sheet->getCell($cellId)->getCalculatedValue();
-                if($cell instanceof PHPExcel_RichText){ //富文本转换字符串
-                    $cell = $cell->__toString();
-                }
-                $b=$cell;
-                if($rowIndex==1){
-                    array_push($attr,$b);
-                }
-                elseif($rowIndex>1){
-                    switch($attr[$colIndex]){
-                        case '员工姓名':$name=$b;break;
-                        case '身份证号':$user_id=$b;break;
-                        case '性别':$gender=$b;break;
-                        case '所在部门':$dept=$b;break;
-                        case '科室':$office=$b;break;
-                        case '岗位':$position=$b;break;
-                        case '合同签订公司':$company=$b;break;
-                        case '婚姻情况':$marry=$b;break;
-                        case '生育情况':$child=$b;break;
-                        case '最高学历':$highest_qualification=$b;break;
-                        case '最高学位':$highest_degree=$b;break;
-                        case '全日制最高学历':$ft_highest_qualification=$b;break;
-                        case '全日制最高学位':$ft_highest_degree=$b;break;
-                        case '用工形式':$service_mode=$b;break;
-                        case '加入本企业时间':$indate=gmdate('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($b));break;
-                        case '收入证明标识':$proof_tag=$b;break;
-                        case '职级薪档':$wage_level=$b;break;
-                        case '职级调整时间':$wage_adjust_stamp=gmdate('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($b));break;
-                        case '薪档调整时间':$level_adjust_stamp=gmdate('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($b));break;
-                        case '剩余积分':$accumulation=$b;break;
-                    }
-                    if($colIndex==13){
-                        $qian3=$b;
-                    }
-                    if($colIndex==14){
-                        $qian2=$b;
-                    }
-                    if($colIndex==15){
-                        $qian1=$b;
-                    }
-                }
-            }
-            if($rowIndex>1){
-                //新建用户标识
-                $row_data=array(
-                    'name' => $name,
-                    'user_id' => $user_id,
-                    'gender' => $gender,
-                    'dept' => $dept,
-                    'office' => $office,
-                    'position' => $position,
-                    'company' => $company,
-                    'marry' => $marry,
-                    'child' => $child,
-                    'highest_qualification' => $highest_qualification,
-                    'highest_degree' => $highest_degree,
-                    'ft_highest_qualification' => $ft_highest_qualification,
-                    'ft_highest_degree' => $ft_highest_degree,
-                    'service_mode' => $service_mode,
-                    'indate' => $indate,
-                    'proof_tag' => $proof_tag,
-                    'qian3' => $qian3,
-                    'qian2' => $qian2,
-                    'qian1' => $qian1,
-                    'wage_level' => $wage_level,
-                    'wage_adjust_stamp' => $wage_adjust_stamp,
-                    'level_adjust_stamp' => $level_adjust_stamp,
-                    'accumulation' => $accumulation
-                );
-                array_push($wage_set,$row_data);
-                unset($row_data);
-                //新建登陆用户
-                //如果数据库中没有这个用户，那么就创建记录，否则不做任何事
-                if(!$this->model_users->checkUserById($user_id)){
-                    #$this->model_users->update();
-                    $user_data=array(
-                        'username' => $name,
-                        'user_id' => $user_id,
-                        'password' => md5(substr($user_id,-6)),
-                        'permission' => 3,
-                    );
-                    array_push($user_set,$user_data);
-                    unset($user_data);
-                }
-            }
-        }
-            
-        
-        $this->model_wage_tag->createbatch($wage_set);
-        $this->model_users->createbatch($user_set);
-        
-        unset($wage_set);
-        unset($user_set);
-    }
-    public function wage_tag_import($filename=NULL){
-        $this->data['path'] = 'uploads/standard/人员信息表（本地系统用）.xlsx';
-        if($_FILES){
-            if($_FILES['file']){
-                if($_FILES['file']['error'] > 0){
-                    $this->session->set_flashdata('error', '请选择要上传的文件！');
-                    $this->render_super_template('super/wage_tag_import',$this->data);
-                }
-                else{
-                    $this->wage_tag_excel_put();
-                    $this->reset_pass();
-                }
-            }
-        }
-        else{
-            $this->render_super_template('super/wage_tag_import',$this->data);
-        } 
-    }
     public function wage_all_user_put(){
         $this->load->library('phpexcel');//ci框架中引入excel类
         $this->load->library('PHPExcel/IOFactory');
@@ -1164,13 +990,13 @@ class Super_wage extends Admin_Controller {
                                 $this->session->set_flashdata('success', '工资导入成功！');
                                 $this->wage_excel_put($doc_name);
                                 $this->data['import_list']=$this->model_wage->getDatetag();
-                                $this->render_super_template('super/wage_search',$this->data);
+                                $this->render_super_template('super/search',$this->data);
                             }
                         }
                     }
                     else{
                         $this->session->set_flashdata('error', '请选择文件!!');
-                        $this->render_super_template('super/wage_search',$this->data);
+                        $this->render_super_template('super/search',$this->data);
                     }
                 }
             }
@@ -1300,11 +1126,11 @@ class Super_wage extends Admin_Controller {
                             }
                         }
                         else{
-                            redirect('super_wage/wage_export', 'refresh');                        
+                            redirect('super_admin/wage_export', 'refresh');                        
                         }
                     }
                     else{
-                        redirect('super_wage/wage_export', 'refresh');
+                        redirect('super_admin/wage_export', 'refresh');
                     }
                 }
                 //指定部门,没有选用户
@@ -1320,15 +1146,15 @@ class Super_wage extends Admin_Controller {
                             //异常处理,如果部门指定，同时有名单
                             else{
                                 $this->session->set_flashdata('error', '不能同时指定部门和上传名单');
-                                redirect('super_wage/wage_export', 'refresh');
+                                redirect('super_admin/wage_export', 'refresh');
                             }
                         }
                         else{
-                            redirect('super_wage/wage_export', 'refresh');                        
+                            redirect('super_admin/wage_export', 'refresh');                        
                         }
                     }
                     else{
-                        redirect('super_wage/wage_export', 'refresh');
+                        redirect('super_admin/wage_export', 'refresh');
                     }
                 }
             }
@@ -1401,11 +1227,11 @@ class Super_wage extends Admin_Controller {
                                 }
                             }
                             else{
-                                redirect('super_wage/wage_export', 'refresh');                        
+                                redirect('super_admin/wage_export', 'refresh');                        
                             }
                         }
                         else{
-                            redirect('super_wage/wage_export', 'refresh');
+                            redirect('super_admin/wage_export', 'refresh');
                         }
                     }
                     //指定部门,没有选用户
@@ -1421,15 +1247,15 @@ class Super_wage extends Admin_Controller {
                                 //异常处理,如果部门指定，同时有名单
                                 else{
                                     $this->session->set_flashdata('error', '不能同时指定部门和上传名单');
-                                    redirect('super_wage/wage_export', 'refresh');
+                                    redirect('super_admin/wage_export', 'refresh');
                                 }
                             }
                             else{
-                                redirect('super_wage/wage_export', 'refresh');                        
+                                redirect('super_admin/wage_export', 'refresh');                        
                             }
                         }
                         else{
-                            redirect('super_wage/wage_export', 'refresh');
+                            redirect('super_admin/wage_export', 'refresh');
                         }
                     }
                     $one_month=array(
@@ -1603,7 +1429,7 @@ class Super_wage extends Admin_Controller {
             }
             else{
                 $this->session->set_flashdata('error', '请选择月份!!');
-                redirect('super_wage/wage_export', 'refresh');
+                redirect('super_admin/wage_export', 'refresh');
             }
         }
         else{
@@ -1684,11 +1510,11 @@ class Super_wage extends Admin_Controller {
 			$delete = $this->model_wage_doc->delete($date);
             if($delete == true){
                 $this->session->set_flashdata('success', '薪酬文件删除成功');
-                redirect('super_wage/wage_doc_import', 'refresh');
+                redirect('super_admin/wage_doc_import', 'refresh');
             }
             else{
                 $this->session->set_flashdata('error', '系统发生未知错误!!');
-                redirect('super_wage/wage_doc_import', 'refresh');
+                redirect('super_admin/wage_doc_import', 'refresh');
             }	
 		}
     }
@@ -1750,11 +1576,11 @@ class Super_wage extends Admin_Controller {
 			$create = $this->model_notice->create($data);
         	if($create == true){
         		$this->session->set_flashdata('success', '公告发布成功');
-        		redirect('super_wage/notification', 'refresh');
+        		redirect('super_admin/notification', 'refresh');
         	}
         	else{
         		$this->session->set_flashdata('error', '系统发生未知错误!!');
-        		redirect('super_wage/publish_wage', 'refresh');
+        		redirect('super_admin/publish_wage', 'refresh');
         	}
 
         }
@@ -1773,7 +1599,7 @@ class Super_wage extends Admin_Controller {
         $pubtime=$_POST['time'];
         $this->model_notice->delete($pubtime);
         $this->session->set_flashdata('success', '公告删除成功！');
-        redirect('super_wage/notification', 'refresh');
+        redirect('super_admin/notification', 'refresh');
     }
 
     public function log_show(){
@@ -1935,7 +1761,7 @@ class Super_wage extends Admin_Controller {
                                 $this->data['wage_sp']="";
                                 $this->data['wage_sp_attr']="";
                                 $this->data['chosen_month']="";
-                                $this->render_super_template('super/wage_search_sp',$this->data);
+                                $this->render_super_template('super/search_sp',$this->data);
                                 #$this->data['import_list']=$this->model_wage_sp->getDatetag();
                                 #$this->render_super_template('super/wage_sp_import_list',$this->data);
                             }
@@ -1967,10 +1793,10 @@ class Super_wage extends Admin_Controller {
                 $this->data['wage_sp']=$this->model_wage_sp->getWageSpByDate($doc_name);
                 $this->data['wage_sp_attr']=$this->model_wage_sp_attr->getWageSpByDate($doc_name);
             }
-            $this->render_super_template('super/wage_search_sp', $this->data);        
+            $this->render_super_template('super/search_sp', $this->data);        
         }
         else{
-            $this->render_super_template('super/wage_search_sp', $this->data);
+            $this->render_super_template('super/search_sp', $this->data);
         }
     }
     public function wage_delete(){
@@ -1984,7 +1810,7 @@ class Super_wage extends Admin_Controller {
         $this->data['wage_data']="";
         $this->data['attr_data']="";
         $this->data['chosen_month']="";
-        $this->render_super_template('super/wage_search',$this->data);
+        $this->render_super_template('super/search',$this->data);
     }
     public function wage_sp_delete(){
         if($this->model_wage_sp->deleteByDate(substr($_POST['time'],0,4).substr($_POST['time'],5,6))){
@@ -1996,7 +1822,7 @@ class Super_wage extends Admin_Controller {
         $this->data['wage_sp']="";
         $this->data['wage_sp_attr']="";
         $this->data['chosen_month']="";
-        $this->render_super_template('super/wage_search_sp',$this->data);
+        $this->render_super_template('super/search_sp',$this->data);
     }
     public function searchtax(){
         $this->data['wage_tax']="";
@@ -2010,10 +1836,10 @@ class Super_wage extends Admin_Controller {
                 $this->data['wage_tax_attr']=$this->model_wage_tax_attr->getTaxByDate($doc_name);
             }
             $this->data['notice']=$this->model_notice->getNoticeLatestTax();
-            $this->render_super_template('super/wage_search_tax',$this->data);  
+            $this->render_super_template('super/search_tax',$this->data);  
         }
         else{
-            $this->render_super_template('super/wage_search_tax',$this->data);
+            $this->render_super_template('super/search_tax',$this->data);
         }
     }
 
@@ -2113,7 +1939,7 @@ class Super_wage extends Admin_Controller {
                                 $this->data['wage_tax']="";
                                 $this->data['wage_tax_attr']="";
                                 $this->data['chosen_month']="";
-                                $this->render_super_template('super/wage_search_tax',$this->data);
+                                $this->render_super_template('super/search_tax',$this->data);
                             }
                         }           
                     }
@@ -2138,7 +1964,7 @@ class Super_wage extends Admin_Controller {
         $this->data['wage_tax']="";
         $this->data['wage_tax_attr']="";
         $this->data['chosen_month']="";
-        $this->render_super_template('super/wage_search_tax',$this->data);
+        $this->render_super_template('super/search_tax',$this->data);
     }
     public function publish_tax(){
         $this->form_validation->set_rules('title', 'title', 'required');
@@ -2158,11 +1984,11 @@ class Super_wage extends Admin_Controller {
 			$create = $this->model_notice->create($data);
         	if($create == true){
         		$this->session->set_flashdata('success', '公告发布成功');
-        		redirect('super_wage/notification', 'refresh');
+        		redirect('super_admin/notification', 'refresh');
         	}
         	else{
         		$this->session->set_flashdata('error', '系统发生未知错误!!');
-        		redirect('super_wage/publish_tax', 'refresh');
+        		redirect('super_admin/publish_tax', 'refresh');
         	}
 
         }

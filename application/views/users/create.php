@@ -31,7 +31,7 @@
             <div class="box-header">
               <h3 class="box-title"> </h3>
             </div>
-            <form role="form" action="<?php base_url('super_wage/create') ?>" method="post">
+            <form role="form" action="<?php base_url('super_admin/create') ?>" method="post">
               <div class="box-body">
                 <div class="col-md-3 col-md-offset-4">
                   <?php echo validation_errors(); ?>
@@ -51,7 +51,7 @@
               <div class="box-footer">
                 <div class="col-md-6 col-md-offset-4">
                   <button type="submit" class="btn btn-primary">创建用户</button>
-                  <a href="<?php echo base_url('super_wage/reset_pass') ?>" class="btn btn-warning">返回</a>
+                  <a href="<?php echo base_url('super_admin/reset_pass') ?>" class="btn btn-warning">返回</a>
                 </div>
               </div>
             </form>
