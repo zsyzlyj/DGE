@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../assert/image/favicon.ico">
+
+    <title>中国联通中山分公司薪酬系统</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assert/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="../assert/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <!-- login -->
+    <link href="../assert/css/default.css" rel="stylesheet">
+    <link href="../assert/css/navcss/carousel.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+</head>
+<body>
+  <nav class="navbar  navbar-inverse navbar-fixed-top" >
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+            <a class="navbar-brand " style="color: white;" href="">中国联通中山分公司薪酬系统</a>
+        </div>
+        <div id="navbar" class="navbar-collapse navbar-right collapse">
+          <ul class="nav navbar-nav">
+            <li class="active">
+            <a href="company.html" >公司业务概况</a>
+            </li>
+            <li >
+            <a href="index.html" >个人主页</a>
+            </li>
+            <li class="dropdown ">
+              <a href="#"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/退出 <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../admin_login.html" class="list-group-item ">重新登录</a></li>
+                <li><a href="../change_password.html" class="list-group-item ">修改密码</a></li>
+                <li><a href="../admin_login.html" class="list-group-item ">退出登录</a></li>
+              </ul>
+            </li>
+             
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+                    
+            
+   <div class="page-content">
+
+
+
+<br>
+<div class=" col-lg-6 col-xs-6 col-sm-12">
+      <div class="panel panel-warning ">
+        <div class="panel-heading">
+          <h3 class="panel-title">公司业务发展</h3> 
+        </div>
+        <div class="panel-body" id="student_infor">                       
+<div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+        </div>
+        <div class="panel-footer">
+        </div>
+
+      </div>
+      </div>
+
+<div class=" col-lg-6 col-xs-6 col-sm-12">
+      <div class="panel panel-warning ">
+        <div class="panel-heading">
+          <h3 class="panel-title">公司业务留量</h3> 
+        </div>
+        <div class="panel-body" id="student_infor">                       
+
+        </div>
+        <div class="panel-footer">
+        </div>
+      </div>
+
+      </div>
+
+
+<div class=" col-lg-6 col-xs-6 col-sm-12">
+      <div class="panel panel-warning">
+        <div class="panel-heading">
+          <h3 class="panel-title">公司团队贡献比例</h3> 
+        </div>
+        <div class="panel-body" id="student_infor">                       
+
+        </div>
+        <div class="panel-footer">
+        </div>
+
+      </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+  </div><!--/.container-->
+    <script src="../assert/js/jquery.min.js"></script>
+    <script src="../assert/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../assert/js/ie10-viewport-bug-workaround.js"></script>
+<script src="../assert/hc7_code/highcharts.js"></script>
+     
+    <script type="text/javascript">
+Highcharts.chart('container', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Browser market shares in January, 2018'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: true,
+                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                style: {
+                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                }
+            }
+        }
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'Chrome',
+            y: 61.41,
+            sliced: true,
+            selected: true
+        }, {
+            name: 'Internet Explorer',
+            y: 11.84
+        }, {
+            name: 'Firefox',
+            y: 10.85
+        }, {
+            name: 'Edge',
+            y: 4.67
+        }, {
+            name: 'Safari',
+            y: 4.18
+        }, {
+            name: 'Sogou Explorer',
+            y: 1.64
+        }, {
+            name: 'Opera',
+            y: 1.6
+        }, {
+            name: 'QQ',
+            y: 1.2
+        }, {
+            name: 'Other',
+            y: 2.61
+        }]
+    }]
+});
+    </script>
+</body>
+</html>
