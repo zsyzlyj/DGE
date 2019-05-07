@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Highcharts Example</title>
+
+		<style type="text/css">
+
+		</style>
+	</head>
+	<body>
+<script src="../assert/hc7_code/highcharts.js"></script>
+<script src="../assert/hc7_code/modules/series-label.js"></script>
+<script src="../assert/hc7_code/modules/data.js"></script>
+<script src="../assert/hc7_code/modules/drilldown.js"></script>
+
+<div id="container_pa" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+
+
+		<script type="text/javascript">
+
+  Highcharts.chart("container_pa", {
+    title: {
+        text: '各团队历史业务量对比'
+    },
+    xAxis: {
+        categories: ['一月', '二月', '三月', '四月', '五月']
+    },
+    labels: {
+        items: [{
+            html: '各团队累计业务量占比',
+            style: {
+                left: '50px',
+                top: '18px',
+                color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+            }
+        }]
+    },
+    series: [{
+        type: 'column',
+        name: '团队一',
+        data: [3, 2, 1, 3, 4]
+    }, {
+        type: 'column',
+        name: '团队二',
+        data: [2, 3, 5, 7, 6]
+    }, {
+        type: 'column',
+        name: '团队三',
+        data: [4, 3, 3, 9, 0]
+    }, {
+        type: 'spline',
+        name: '业务量平均值',
+        data: [3, 2.67, 3, 6.33, 3.33],
+        marker: {
+            lineWidth: 2,
+            lineColor: Highcharts.getOptions().colors[3],
+            fillColor: 'white'
+        }
+    }, {
+        type: 'pie',
+        name: 'Total consumption',
+        data: [{
+            name: '团队一',
+            y: 13,
+            color: Highcharts.getOptions().colors[0] // Jane's color
+        }, {
+            name: '团队二',
+            y: 23,
+            color: Highcharts.getOptions().colors[1] // John's color
+        }, {
+            name: '团队三',
+            y: 19,
+            color: Highcharts.getOptions().colors[2] // Joe's color
+        }],
+        center: [100, 80],
+        size: 100,
+        showInLegend: false,
+        dataLabels: {
+            enabled: false
+        }
+    }]
+});
+
+		</script>
+	</body>
+</html>

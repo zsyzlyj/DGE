@@ -2,7 +2,6 @@ CREATE TABLE `users` (
   `user_id` varchar(20) NOT NULL COMMENT '身份证号',
   `username` varchar(6) NOT NULL COMMENT '姓名',
   `password` varchar(255) NOT NULL COMMENT '初始值为身份证后六位',
-  `permission` int(11) NOT NULL COMMENT '1是综管，2是部门负责人，3是员工'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `daily_account` (
@@ -34,7 +33,7 @@ CREATE TABLE `daily_account` (
 CREATE TABLE `super_user` (
   `user_id` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `permission` varchar(255) NOT NULL COMMENT '有三类工资，年假，绩效'
+  `permission` varchar(255) NOT NULL COMMENT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -42,4 +41,4 @@ CREATE TABLE `super_user` (
 --
 
 INSERT INTO `super_user` (`user_id`, `password`, `permission`) VALUES
-('tvwswgnp', md5('123456'), '休假')
+('tvwswgnp', md5('123456'), '')
