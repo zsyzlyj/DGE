@@ -6,6 +6,9 @@ class Auth extends Admin_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('model_auth');
+		
+		$this->load->model('model_wage');
+
 		$this->data['user_name'] = $this->session->userdata('user_name');
         $this->data['user_id'] = $this->session->userdata('user_id');
 	}
@@ -25,10 +28,11 @@ class Auth extends Admin_Controller {
 		permission的值不同分别跳转：
 		0——超级管理员,index
 		1——综管员,admin
-		2——部门负责人，manager
+		2——部门负责人，wage
 		3——普通员工,staff
 		4——大区负责人,domain
 	*/
+	/*
 	public function login(){
 		//检测session,若session没有过期则不需要重新登录
 		$this->logged_in();
@@ -45,7 +49,7 @@ class Auth extends Admin_Controller {
 		//若登录信息都已填写,则开始校验
 		if ($this->form_validation->run() == TRUE){
 			//登录错误次数
-			$this->data['error_counter']=$_POST['error_counter'];
+			$this->data['error_counter']']=$_POST['error_counter'];
 			
 			if(isset($_SESSION['code'])){
 				//首先判断验证码
@@ -185,31 +189,106 @@ class Auth extends Admin_Controller {
 	        }
 		}
 	}
-	public function get_captcha(){
-        if ($this->input->is_ajax_request()) {
-			if(array_key_exists('image', $_SESSION)){
-				if(file_exists($_SESSION['image'])){
-					unlink($_SESSION['image']);
+	*/
+	public function login(){
+		$this->data['name']='';
+		$this->load->view('login',$this->data);
+	}
+	public function wage_excel_put(){
+        $this->load->library("phpexcel");//ci框架中引入excel类
+        $this->load->library('PHPExcel/IOFactory');
+        //先做一个文件上传，保存文件
+        $path=$_FILES['file'];
+        $filePath = "uploads/".$path["name"];
+        move_uploaded_file($path["tmp_name"],$filePath);
+        //根据上传类型做不同处理
+        if(strstr($_FILES['file']['name'],'xlsx')){
+            $reader = new PHPExcel_Reader_Excel2007();
+        }
+        else if(strstr($_FILES['file']['name'], 'xls')){
+            $reader = IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
+        }
+        $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ','BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ','CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO', 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ','DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG', 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY', 'DZ'); 
+        $PHPExcel = $reader->load($filePath, 'utf-8'); // 载入excel文件
+        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+        $columnCnt = array_search($highestColumm, $cellName); 
+
+        $batch_counter=0;
+        $data = array();
+        $attr = array();
+        $this->model_wage->deleteAll();
+		
+        for($rowIndex = 1; $rowIndex <= $highestRow; $rowIndex++){        //循环读取每个单元格的内容。注意行从1开始，列从A开始
+            $wage = array();
+            for($colIndex = 0; $colIndex <= $columnCnt; $colIndex++){
+                $cellId = $cellName[$colIndex].$rowIndex;  
+                $cell = $sheet->getCell($cellId)->getValue();
+                $cell = $sheet->getCell($cellId)->getCalculatedValue();
+                if($cell instanceof PHPExcel_RichText){ //富文本转换字符串
+                    $cell = $cell->__toString();
+				}
+				if($rowIndex==1){
+					$attr[$colIndex]=$cell;
+				}
+				elseif($rowIndex>1){
+					switch($attr[$colIndex]){
+						case 'ACCT_MONTH':$wage['acct_month']=(string)date('Y-m',strtotime($cell));break;
+						case 'TEAM':$wage['team']=$cell;break;
+						case 'STAFF_NAME':$wage['staff_name']=$cell;break;
+						case 'LSR1':$wage['lsr1']=$cell;break;
+						case 'LSR2':$wage['lsr2']=$cell;break;
+						case 'ZS_TOTAL_INCOME':$wage['total_income']=$cell;break;
+						case 'MANAGER_LVL':$wage['manager_level']=$cell;break;
+						case 'BASE_SALARY':$wage['base_salary']=$cell;break;
+						case 'CHARGE':$wage['charge']=$cell;break;
+						case 'KPI':$wage['kpi']=$cell;break;
+						case 'YFF_CHARGE':$wage['yff_charge']=$cell;break;
+						case 'HFF_CHARGE':$wage['hff_charge']=$cell;break;
+						case 'GW_CHARGE':$wage['gw_charge']=$cell;break;
+						case 'CL_CHARGE':$wage['cl_charge']=$cell;break;
+						case 'QF_CHARGE':$wage['qf_charge']=$cell;break;
+						case 'OTHER1':$wage['other1']=$cell;break;
+						case 'OTHER2':$wage['other2']=$cell;break;
+						case 'OTHER3':$wage['other3']=$cell;break;
+						case 'OTHER4':$wage['other4']=$cell;break;
+						case 'END_CHARGE':$wage['end_charge']=$cell;break;
+						case 'OTHER_REMARK':$wage['remark']=$cell;break;
+						default:break;
+					}
 				}
 			}
-            $img = imagecreatetruecolor(90, 40);
-			$black = imagecolorallocate($img, 0x00, 0x00, 0x00);
-			$green = imagecolorallocate($img, 0x00, 0xFF, 0x00);
-			$white = imagecolorallocate($img, 0xFF, 0xFF, 0xFF);
-			imagefill($img, 0, 0, $white);
-			//生成随机的验证码
-			$words = '123456789';
-			$code = substr(str_shuffle($words), 0, 4);
-			imagestring($img, 5, 10, 10, $code, $black);
-			$new_img = "captcha/".date('YmdHis').'-'.$code.".jpg";			
-			$created = imagejpeg($img, $new_img);
-			$_SESSION['code']=$code;
-			$_SESSION['image']=$new_img;
-			echo '<a href="javascript:void(0);"  _onclick="get_captcha();"><img src="http://'.$_SERVER['HTTP_HOST'].'/hr/'.$new_img.'" style="border:1px solid black"/></a>';
-			//销毁图片
-			imagedestroy($img);
-        } else {
-            show_404();
-        }
+			if($rowIndex>1){
+				array_push($data,$wage);
+				unset($wage);
+			
+			}
+		}
+        $this->model_wage->createbatch($data);
     }
+
+    public function wage_import(){
+        #$this->data['path'] = "uploads/standard/负责人和綜管員角色表模板.xlsx";
+        if($_FILES){
+            if($_FILES["file"]){
+                if($_FILES["file"]["error"] > 0){
+                    $this->session->set_flashdata('error', '请选择要上传的文件！');
+                    $this->load->view('wage_import',$this->data);
+                }
+                else{
+                    $this->wage_excel_put();
+                    $this->wage();
+					#echo 'success';
+				}
+            }
+        }
+        else{
+            $this->load->view('wage_import',$this->data);
+        }
+	}
+	public function wage(){
+		$this->data['user_data']=$this->model_wage->getByName('邓敏');
+		$this->render_template('customer_manager',$this->data);
+	}
 }

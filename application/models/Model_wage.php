@@ -11,6 +11,13 @@ class Model_wage extends CI_Model{
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	public function getByName($staff_name = null){
+		if($staff_name){
+			$sql = "SELECT * FROM wage WHERE staff_name = ?";	
+			$query = $this->db->query($sql, array($staff_name));
+			return $query->row_array();
+		}
+	}
 	public function getWageById($userId = null){
 		if($userId){
 			$sql = "SELECT * FROM wage WHERE user_id = ?";	

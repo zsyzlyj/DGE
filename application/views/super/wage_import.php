@@ -5,7 +5,7 @@
   <!-- Content Header (Page header) -->
   <section class="content-header">
     <h1>
-      工资明细导入
+      政企工资明细导入
     </h1>
   </section>
 

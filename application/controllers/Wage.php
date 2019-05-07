@@ -5,9 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Wage extends Admin_Controller{
 	public function __construct(){
 		parent::__construct();
-		$this->not_logged_in();
+		#$this->not_logged_in();
 		$this->data['page_title'] = 'Wage';
         $this->load->model('model_wage');
+        '''
         $this->load->model('model_holiday');
         $this->load->model('model_users');
         $this->load->model('model_wage_doc');
@@ -30,6 +31,7 @@ class Wage extends Admin_Controller{
         $this->data['wage_func']=$this->model_func->getFuncByType('wage');
         $this->data['service_mode']= $this->model_wage_tag->getModeById($this->session->userdata('user_id'))['service_mode'];
         $this->data['notice'] = $this->model_notice->getNoticeLatestWage();
+        '''
     }
     
 	public function index(){

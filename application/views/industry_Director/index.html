@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../assert/image/favicon.ico">
+
+  <title>中国联通中山分公司薪酬系统</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../assert/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="../assert/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+  <!-- login -->
+  <link href="../assert/css/default.css" rel="stylesheet">
+  <link href="../assert/css/navcss/carousel.css" rel="stylesheet">
+  <link href="../assert/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="../assert/css/page/pager.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+
+
+</head>
+<body>
+  <nav class="navbar  navbar-inverse navbar-fixed-top" >
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand " style="color: white;" href="">中国联通中山分公司薪酬系统</a>
+      </div>
+      <div id="navbar" class="navbar-collapse navbar-right collapse">
+        <ul class="nav navbar-nav">
+          <li >
+            <a href="company.html" >公司业务概况</a>
+          </li>
+          <li class="active">
+            <a href="index.html" >个人主页</a>
+          </li>
+          <li class="dropdown ">
+            <a href="#"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/退出 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="../admin_login.html" class="list-group-item ">重新登录</a></li>
+              <li><a href="../change_password.html" class="list-group-item ">修改密码</a></li>
+              <li><a href="../admin_login.html" class="list-group-item ">退出登录</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+  <div class="page-content-wrap">
+   <div class=" col-lg-1 col-md-1  col-xs-1 col-sm-1"></div>
+
+   <div class=" col-lg-10 col-md-10 col-xs-10 col-sm-10">
+    <br>
+    <div class="panel panel-warning">
+      <div class="panel-heading">
+        <h3 class="panel-title">基本信息</h3> 
+      </div>
+      <div class="panel-body" id="student_infor">    
+        <ul class="list-group border-bottom " >
+          <li class="col-md-6 list-group-item">姓名<p class="btn  pull-right  btn-default ">×××</p></li>
+          <li class="col-md-6 list-group-item">所属部门<p class="btn  pull-right  btn-default ">×××</p></li>
+          <li class="col-md-6 list-group-item">职位<p class="btn  pull-right  btn-default ">×××</p></li>
+          <li class="col-md-6 list-group-item">薪酬计算类型<p class="btn  pull-right  btn-default ">×××</p></li>
+        </ul>                      
+      </div>
+      <div class="panel-footer">
+      </div>
+    </div>
+    <!-- PAGE CONTENT WRAPPER -->
+    <div class="page-content-wrap">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default tabs">                            
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">团队业务</a></li>
+              <li><a href="#tab-second" role="tab" data-toggle="tab">本人业务</a></li>
+              <li><a href="#tab-third" role="tab" data-toggle="tab">薪酬展示</a></li>
+              <li><a href="#tab-fourth" role="tab" data-toggle="tab">消息<span class="badge badge-info">0</span></a></li>
+            </ul>
+            <div class="panel-body tab-content">
+
+            
+              <div class="tab-pane active" id="tab-first">
+                
+                <div class="row">
+                  <div id="container7" ></div>   
+                </div>
+                <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">团队业务时间段查看</h3>
+                                 <div class="pull-right">
+                                    <button type="button" id="get_teamtime_data0" class="btn btn-success btn-rounded">本月</button>
+                                    <button type="button" id="get_teamtime_data1"  class="btn btn-primary btn-rounded">上个月</button>
+                                    <button type="button" id="get_teamtime_data2"  class="btn btn-primary btn-rounded">近三个月</button>
+                                    <button type="button" id="get_teamtime_data3"  class="btn btn-primary btn-rounded">近五个月</button>
+                                    <button type="button" id="get_teamtime_data4"  class="btn btn-primary btn-rounded">近半年</button>
+                                    <button type="button" id="get_teamtime_data5"  class="btn btn-primary btn-rounded">近一年</button>
+                                </div>
+                                </div>
+                            </div>
+                <div class="row" id="show_pie">
+                </div>
+              </div>
+              <div class="tab-pane " id="tab-second">
+                <div class="row">
+                  <div id="container1" class="col-lg-6 col-md-6 "></div>  
+                  <div id="container2" class="col-lg-6 col-md-6  "></div>  
+                </div>
+                          <div class="panel panel-info">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">业务明细</h3>
+                                 <div class="pull-right">
+                                    <button type="button" id="get_time_data0" class="btn btn-success btn-rounded">本月</button>
+                                    <button type="button" id="get_time_data1"  class="btn btn-primary btn-rounded">上个月</button>
+                                    <button type="button" id="get_time_data2"  class="btn btn-primary btn-rounded">近三个月</button>
+                                    <button type="button" id="get_time_data3"  class="btn btn-primary btn-rounded">近五个月</button>
+                                    <button type="button" id="get_time_data4"  class="btn btn-primary btn-rounded">近半年</button>
+                                    <button type="button" id="get_time_data5"  class="btn btn-primary btn-rounded">近一年</button>
+                                </div>
+                                </div>
+                            </div>
+                                       <table id="example"  cellspacing="0" width="100%">
+                    
+                                        </table>        
+             
+              </div>
+              <div class="tab-pane" id="tab-third">
+                <div class="row">
+                 <div id="container3"></div>     
+               </div>
+                <div class="row">
+                 <div id="container4"></div>
+               </div>
+             </div>                                   
+             <div class="tab-pane" id="tab-fourth">
+              <div class="push-up-10">
+                <div class="pull-left">
+                  <button class="btn btn-primary" id="faqOpenAll"><span class="fa fa-angle-down"></span> 展开消息</button>
+                  <button class="btn btn-primary" id="faqCloseAll"><span class="fa fa-angle-up"></span> 合并消息</button>
+                </div>                                       
+              </div>  
+              <!-- PAGE CONTENT WRAPPER -->
+              <div class="panel panel-info">
+                <div class="pull-left">
+                  <ul class="pagination" id="page2">
+                  </ul>
+                </div>
+                <div class="panel-body faq" id="context">
+                  <div class="faq-item">
+                    <div class="faq-title"><span class="badge badge-primary">>>></span>Cras at turpis vestibulum mauris gravida commodo?</div>
+                    <div class="faq-text">
+                      <h5>Aliquam at ipsum sapien</h5>
+                      <p>Maecenas risus sapien, sollicitudin quis nisl vehicula, sagittis venenatis elit. Cras at turpis vestibulum mauris gravida commodo. Fusce tellus metus, eleifend vel ultrices quis, fermentum ut justo. Ut hendrerit ante sed rutrum sagittis. Nam ac nulla posuere, mattis risus nec, sagittis purus. Praesent in justo rhoncus, molestie velit laoreet, viverra sem.</p>
+                      <p>Sed sit amet lacus sem. Sed vel fermentum mi, sit amet hendrerit purus. Duis nec posuere dolor. Fusce sed faucibus turpis, a cursus nunc.</p>
+                    </div>
+                  </div>
+                  <div class="faq-item">
+                    <div class="faq-title"><span class="badge badge-primary">>>></span>Nulla ullamcorper, ex in ultrices fringilla?</div>
+                    <div class="faq-text">
+                      <h5>Cras ac odio faucibus tortor pretium</h5>
+                      <p>Cras ac odio faucibus tortor pretium tristique in id nisl. Donec libero nisl, hendrerit vel tempus at, posuere vel urna. Nam sed consectetur lectus. Sed sit amet risus dolor. Duis accumsan lorem ac quam egestas pretium.</p>
+                      <p>Curabitur finibus nisl ac aliquet mattis. Aliquam convallis bibendum lorem sed lobortis. Cras aliquam urna sed luctus tincidunt.</p>
+                      <h5>Nulla ullamcorper</h5>
+                      <p>In diam turpis, tristique nec cursus in, blandit vel elit. Nulla ullamcorper, ex in ultrices fringilla, nisi sapien hendrerit dolor, in suscipit mauris turpis id erat.</p>
+                      <p>Nunc facilisis odio vitae eros rutrum, eget rutrum nulla rhoncus. Etiam laoreet pretium ex ut gravida. In venenatis turpis sit amet volutpat bibendum.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- END PAGE CONTENT WRAPPER -->                       
+            </div>  
+
+
+          </div>
+          <div class="panel-footer">                     
+          </div>
+        </div>                                
+      </div>
+    </div>                    
+    <!-- END PAGE CONTENT WRAPPER -->    
+  </div>
+</div><!--/.container-->
+</div>
+<script src="../assert/js/jquery.min.js"></script>
+<script src="../assert/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../assert/js/ie10-viewport-bug-workaround.js"></script>
+<script src="../assert/hc7_code/highcharts.js"></script>
+<script src="../assert/hc7_code/modules/series-label.js"></script>
+<script src="../assert/hc7_code/modules/data.js"></script>
+<script src="../assert/hc7_code/modules/drilldown.js"></script>
+<script src="../assert/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" src="../assert/js/faq.js"></script>
+<script src="../assert/js/page/pager.js"></script>
+<script src="../assert/js/industry_Director/industry_Director.js"></script>
+
+
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

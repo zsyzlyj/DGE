@@ -4,6 +4,30 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL COMMENT '初始值为身份证后六位',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `wage_content` (
+  `dept` varchar(100) DEFAULT NULL,
+  `staff_name` varchar(18) DEFAULT NULL,
+  `team` varchar(18) DEFAULT NULL,
+  `lsr1` varchar(12) DEFAULT NULL,
+  `lsr2` varchar(12) DEFAULT NULL,
+  `total_income` varchar(18) DEFAULT NULL,
+  `manager_level` varchar(18) DEFAULT NULL,
+  `base_salary` varchar(18) DEFAULT NULL,
+  `charge` varchar(18) DEFAULT NULL,
+  `kpi` varchar(18) DEFAULT NULL,
+  `yff_charge` varchar(18) DEFAULT NULL,
+  `hff_charge` varchar(18) DEFAULT NULL,
+  `gw_charge` varchar(18) DEFAULT NULL,
+  `cl_charge` varchar(18) DEFAULT NULL,
+  `qf_charge` varchar(18) DEFAULT NULL,
+  `other1` varchar(18) DEFAULT NULL,
+  `other2` varchar(18) DEFAULT NULL,
+  `other3` varchar(18) DEFAULT NULL,
+  `other4` varchar(18) DEFAULT NULL,
+  `end_charge` varchar(18) DEFAULT NULL,
+  `remark` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 CREATE TABLE `daily_account` (
   `user_id` varchar(50) NOT NULL COMMENT '用户编码',
   `phone_number` varchar(50) NOT NULL COMMENT '电话号码',

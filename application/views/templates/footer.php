@@ -1,29 +1,21 @@
 
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 0.1.0
-    </div>
-    <strong>Copyright &copy; 2018-<?php echo date('Y') ?>.</strong> All rights reserved.
-  </footer>
-
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
+</div><!--/.container-->
 </div>
-<!-- ./wrapper -->
+<script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="<?php echo base_url('assets/js/ie10-viewport-bug-workaround.js') ?>"></script>
+<script src="<?php echo base_url('assets/hc7_code/highcharts.js') ?>"></script>
+<script src="<?php echo base_url('assets/hc7_code/modules/series-label.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/jquery.dataTables.min.js') ?>"></script>
 
-</body>
-<script language="javascript">   
-  var myTime = setTimeout("Timeout()", 1800000);   
-  function resetTime() {   
-      clearTimeout(myTime);   
-      myTime = setTimeout('Timeout()', 1800000);   
-  }  
-  function Timeout() {   
-      alert("您的登录已超时, 请点确定后重新登录!");   
-      document.location.href='<?php echo base_url("auth/logout");?>';   
-  }   
-  document.documentElement.onkeydown=resetTime;  
-  document.documentElement.onclick=resetTime;  
+<script type="text/javascript" src="<?php echo base_url('assets/js/faq.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/page/pager.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/account_manager/ac_manager.js') ?>"></script>
+
+
+<script type="text/javascript">
+
 </script>
+</body>
 </html>

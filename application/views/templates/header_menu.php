@@ -1,31 +1,33 @@
-<header class="main-header">
-    <!-- Logo -->
-    <a href="javascript:void(0);" class="logo" style="cursor:default;text-decoration:none">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b></b></span>
-      <!-- logo for regular state and mobile devices -->
-      <?php if(strstr($_SERVER['PHP_SELF'],'holiday')):?>
-        <span class="logo-lg"><b>年假查询系统</b></span>
-      <?php endif; ?>
-      <?php if(strstr($_SERVER['PHP_SELF'],'wage')):?>
-        <span class="logo-lg"><b>工资查询系统</b></span>
-      <?php endif; ?>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-    
-    <ul class="nav navbar-nav navbar-right">
-        <li><a href="javascript:void(0);" style="cursor:default">
-        <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;<?php echo $user_name;?>
-        </a></li>
-        <li><a href="<?php echo base_url('dashboard') ?>"><i class="glyphicon glyphicon-th"></i>&nbsp;返回主页</a></li>
-        <li><a href="<?php echo base_url('auth/logout') ?>"><i class="glyphicon glyphicon-log-out"></i>&nbsp;退出系统</a></li>
-    </ul>
 
-    <!-- /.navbar-top-links -->
-    </nav>
-  </header>
+  <nav class="navbar  navbar-inverse navbar-fixed-top" >
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand " style="color: white;" href="">中国联通中山分公司薪酬系统</a>
+      </div>
+      <div id="navbar" class="navbar-collapse navbar-right collapse">
+        <ul class="nav navbar-nav">
+          <li >
+            <a href="company.html" >公司业务概况</a>
+          </li>
+          <li class="active">
+            <a href="index.html" >个人主页</a>
+          </li>
+          <li class="dropdown ">
+            <a href="#"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登录/退出 <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="../admin_login.html" class="list-group-item ">重新登录</a></li>
+              <li><a href="../change_password.html" class="list-group-item ">修改密码</a></li>
+              <li><a href="../admin_login.html" class="list-group-item ">退出登录</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>

@@ -75,12 +75,10 @@ class Admin_Controller extends MY_Controller
 	public function render_template($page = null, $data = array()){
 		$this->load->view('templates/header',$data);
 		$this->load->view('templates/header_menu',$data);
-		$this->load->view('templates/side_menubar',$data);
 		$this->load->view($page, $data);
 		$this->load->view('templates/footer',$data);
 	}
 	public function render_super_template($page = null, $data = array()){
-
 		$this->load->view('templates/super_header',$data);
 		$this->load->view('templates/super_header_menu',$data);
 		$this->load->view('templates/super_side_menubar',$data);
