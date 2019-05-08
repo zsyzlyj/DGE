@@ -11,7 +11,7 @@
 
 <script type="text/javascript" src="<?php echo base_url('assets/js/faq.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/page/pager.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/account_manager/ac_manager.js') ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('assets/js/account_manager/ac_manager.js') ?>"></script>
 
 
 <script type="text/javascript">

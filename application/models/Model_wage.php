@@ -18,6 +18,13 @@ class Model_wage extends CI_Model{
 			return $query->row_array();
 		}
 	}
+	public function getWageByName($staff_name = null){
+		if($staff_name){
+			$sql = "SELECT yff_charge,hff_charge,gw_charge,cl_charge,qf_charge,other1,other2,other3,other4,end_charge FROM wage WHERE staff_name = ?";	
+			$query = $this->db->query($sql, array($staff_name));
+			return $query->row_array();
+		}
+	}
 	public function getWageById($userId = null){
 		if($userId){
 			$sql = "SELECT * FROM wage WHERE user_id = ?";	

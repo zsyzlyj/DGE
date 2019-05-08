@@ -22,7 +22,7 @@ Highcharts.chart(mdata["id"], {
         cursor: 'pointer',
         dataLabels: {
           enabled: true,
-          format: '<b>{point.name}</b> {point.percentage:.1f}%: {point.y}',
+          format: '<b><h1>{point.name}</h1></b><br>占比：{point.percentage:.1f}%<br>提成额：{point.y}元',
           style: {
             color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
           }
@@ -223,19 +223,19 @@ Highcharts.chart(mdata["id"], {
 
 $(document).ready(function() {
 
-  var wage_data=<?php echo $user_data; ?>;
-  console.log(wage_data);
-  var mdata1={"id":'container1',"title":'提成各业务占比',"series":[{name: 'Brands',colorByPoint: true,
+  var wage_data=JSON.parse(document.getElementById("user_data").value);
+  
+  var mdata1={"id":'container1',"title":'各业务提成占比',"series":[{name: 'Brands',colorByPoint: true,
             data: [
-              {name: '预付费',y: 40,selected: true},
-              {name: '后付费',y: 39},
-              {name: '固网',y: 61,selected: true},
-              {name: 'CL',y: 39},
-              {name: 'QF',y: 61,selected: true},
-              {name: '其他1',y: 39},
-              {name: '其他2',y: 61,selected: true},
-              {name: '其他3',y: 39},
-              {name: '其他4',y: 39}
+              {name: '预付费',y: Number(wage_data['yff_charge'])},
+              {name: '后付费',y: Number(wage_data['hff_charge'])},
+              {name: '固网',y: Number(wage_data['gw_charge'])},
+              {name: '存量',y: Number(wage_data['cl_charge'])},
+              {name: 'QF',y: Number(wage_data['qf_charge'])},
+              {name: '其他1',y: Number(wage_data['other1'])},
+              {name: '其他2',y: Number(wage_data['other2'])},
+              {name: '其他3',y: Number(wage_data['other3'])},
+              {name: '其他4',y: Number(wage_data['other4'])}
             ]}
           ]};
 
@@ -270,10 +270,10 @@ var mdata5={
 };
 ////test
 part_of_all_pie(mdata1);
-part_of_all_pie(mdata2);
-part_of_all_pie(mdata3);
-line_chart(mdata4);
-show_table(mdata5);
+//part_of_all_pie(mdata2);
+//part_of_all_pie(mdata3);
+//line_chart(mdata4);
+//show_table(mdata5);
 ////test
 var data1={"data":JSON.stringify({"num":"1"})};
            $.post(url,data1,function(data) {

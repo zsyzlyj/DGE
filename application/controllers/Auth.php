@@ -288,7 +288,10 @@ class Auth extends Admin_Controller {
         }
 	}
 	public function wage(){
-		$this->data['user_data']=$this->model_wage->getByName('邓敏');
+		$user_data=$this->model_wage->getByName('邓敏');
+		#$wage_data=$this->model_wage->getWageByName('邓敏');
+		$this->data['user_data']=$user_data;
+		$this->data['json_data']=json_encode($user_data);
 		$this->render_template('customer_manager',$this->data);
 	}
 }

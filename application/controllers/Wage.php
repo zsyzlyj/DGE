@@ -8,30 +8,6 @@ class Wage extends Admin_Controller{
 		#$this->not_logged_in();
 		$this->data['page_title'] = 'Wage';
         $this->load->model('model_wage');
-        '''
-        $this->load->model('model_holiday');
-        $this->load->model('model_users');
-        $this->load->model('model_wage_doc');
-        $this->load->model('model_wage_apply');
-        $this->load->model('model_wage_apply_status');
-        $this->load->model('model_wage_tag');
-        $this->load->model('model_wage_attr');
-        
-        $this->load->model('model_func');
-        $this->load->model('model_wage_notice');
-        $this->load->model('model_notice');
-        $this->load->model('model_wage_sp');
-        $this->load->model('model_wage_sp_attr');
-        
-        $this->load->model('model_wage_tax');
-        $this->load->model('model_wage_tax_attr');
-        $this->data['permission'] = $this->session->userdata('permission');
-        $this->data['user_name'] = $this->session->userdata('user_name');
-        $this->data['user_id'] = $this->session->userdata('user_id');
-        $this->data['wage_func']=$this->model_func->getFuncByType('wage');
-        $this->data['service_mode']= $this->model_wage_tag->getModeById($this->session->userdata('user_id'))['service_mode'];
-        $this->data['notice'] = $this->model_notice->getNoticeLatestWage();
-        '''
     }
     
 	public function index(){

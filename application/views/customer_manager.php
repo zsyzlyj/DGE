@@ -5,28 +5,75 @@
     <br>
     <div class="panel panel-warning">
       <div class="panel-heading">
-        <h3 class="panel-title">基本信息</h3> 
+        <h3 class="panel-title"></h3> 
       </div>
-      <div class="panel-body" id="student_infor">    
-        <ul class="list-group border-bottom ">
-          <li class="col-md-3 list-group-item">姓名<p class="pull-right"><?php echo $user_data['staff_name'];?></p></li>
-          <li class="col-md-3 list-group-item">团队<p class="pull-right"><?php echo $user_data['team'];?></p></li>
-          <li class="col-md-3 list-group-item">出账月<p class="pull-right"><?php echo $user_data['acct_month'];?></p></li>
-          <li class="col-md-3 list-group-item">总收入<p class="pull-right"><?php echo $user_data['total_income'];?></p></li>
-        </ul>
+      <input type="hidden" id='user_data' value='<?php echo $json_data;?>'/>
+      <div class="panel-body">
+        <h3>基本信息</h3>
         <br>
-        <ul class="list-group border-bottom ">
-          <li class="col-md-3 list-group-item">总提成<p class="pull-right"><?php echo $user_data['end_charge'];?></p></li>
-          <li class="col-md-3 list-group-item">预付费提成<p class="pull-right"><?php echo $user_data['yff_charge'];?></p></li>
-          <li class="col-md-3 list-group-item">后付费提成<p class="pull-right"><?php echo $user_data['hff_charge'];?></p></li>
-          <li class="col-md-3 list-group-item">固网提成<p class="pull-right"><?php echo $user_data['gw_charge'];?></p></li>
-          <li class="col-md-3 list-group-item">CL提成<p class="pull-right"><?php echo $user_data['cl_charge'];?></p></li>
-          <li class="col-md-3 list-group-item">QF提成<p class="pull-right"><?php echo $user_data['qf_charge'];?></p></li>
-          <li class="col-md-3 list-group-item">其他1<p class="pull-right"><?php echo $user_data['other1'];?></p></li>
-          <li class="col-md-3 list-group-item">其他2<p class="pull-right"><?php echo $user_data['other2'];?></p></li>
-          <li class="col-md-3 list-group-item">其他3<p class="pull-right"><?php echo $user_data['other3'];?></p></li>
-          <li class="col-md-3 list-group-item">其他4<p class="pull-right"><?php echo $user_data['other4'];?></p></li>
-        </ul>   
+        <table class="table table-bordered table-hovered" style="text-align:center">
+          <thead>
+            <tr style="border-color:silver">
+              <th style="border-color:silver;text-align:center"><h4>姓名</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>团队</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>出账月</h4></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-color:silver">
+            <td class="col-md-3" style="border-color:silver"><?php echo $user_data['staff_name'];?></td>
+            <td class="col-md-3" style="border-color:silver"><?php echo $user_data['team'];?></td>
+            <td class="col-md-3" style="border-color:silver"><?php echo $user_data['acct_month'];?></td>
+            </tr>
+          </tbody>
+        </table>
+        <br />
+        
+        <h3>总收入情况</h3>
+        <table class="table table-hovered table-bordered" style="text-align:center">
+          <thead>
+            <tr style="border-color:silver">
+              <th style="border-color:silver;text-align:center"><h4>总收入</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>总提成</h4></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            <td class="col-md-3" style="border-color:silver"><?php echo $user_data['total_income'];?></td>
+            <td class="col-md-3" style="border-color:silver"><?php echo $user_data['end_charge'];?></td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>提成情况</h3>
+        <table class="table table-striped table-bordered" style="text-align:center">
+          <thead>
+            <tr style="border-color:silver">
+              <th style="border-color:silver;text-align:center"><h4>预付费提成</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>后付费提成</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>固网提成</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>存量提成</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>QF提成</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>其他1</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>其他2</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>其他3</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>其他4</h4></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            <td style="border-color:silver"><?php echo $user_data['yff_charge'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['hff_charge'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['gw_charge'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['cl_charge'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['qf_charge'];?></td>
+
+            <td style="border-color:silver"><?php echo $user_data['other1'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['other1'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['other1'];?></td>
+            <td style="border-color:silver"><?php echo $user_data['other1'];?></td>
+            </tr>    
+          </tbody>
+        </table>
       </div>
       <div class="panel-footer">
       </div>
