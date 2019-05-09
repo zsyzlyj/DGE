@@ -8,6 +8,8 @@
         <h3 class="panel-title"></h3> 
       </div>
       <input type="hidden" id='user_data' value='<?php echo $json_data;?>'/>
+      <input type="hidden" id='daily_data' value='<?php echo $daily_data;?>'/>
+      <input type="hidden" id='column_name' value='<?php echo $column_name;?>'/>
       <div class="panel-body">
         <h3>基本信息</h3>
         <br>
@@ -86,7 +88,7 @@
           <div class="panel panel-default tabs">                            
             <ul class="nav nav-tabs" role="tablist">
               <li class="active"><a href="#tab-first" role="tab" data-toggle="tab">业务情况</a></li>
-              <li><a href="#tab-second" role="tab" data-toggle="tab">薪酬展示</a></li>
+              <li><a href="#tab-second" role="tab" data-toggle="tab">提成占比</a></li>
               <li><a href="#tab-third" role="tab" data-toggle="tab">消息<span class="badge badge-info">0</span></a></li>
             </ul>
             <div class="panel-body tab-content">
@@ -105,12 +107,11 @@
                       <button type="button" id="get_time_data3"  class="btn btn-primary btn-rounded">近五个月</button>
                       <button type="button" id="get_time_data4"  class="btn btn-primary btn-rounded">近半年</button>
                       <button type="button" id="get_time_data5"  class="btn btn-primary btn-rounded">近一年</button>
+                    </div>
                   </div>
-                  </div>
-              </div>
-                <table id="example"  cellspacing="0" width="100%">
-                </table>  
-             
+                </div>
+                <table id="daily_table" class="table table-striped table-bordered table-responsive" style="white-space:nowrap;text-align:center;">
+                </table>
               </div>
               <div class="tab-pane" id="tab-second">
                 <div class="row">

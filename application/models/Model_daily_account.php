@@ -11,6 +11,13 @@ class Model_daily_account extends CI_Model{
 		$query = $this->db->query($sql);
 		return $query->result_array();
 	}
+	public function getByName($userId = null){
+		if($userId){
+			$sql = "SELECT * FROM daily_account WHERE staff_name = ?";	
+			$query = $this->db->query($sql, array($userId));
+			return $query;
+		}
+	}
 	public function getById($userId = null){
 		if($userId){
 			$sql = "SELECT * FROM daily_account WHERE user_id = ?";	

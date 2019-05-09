@@ -8,7 +8,7 @@
           <h3 class="panel-title">上传文件</h3> 
         </div>
         <div class="panel-body" id="student_infor">   
-          <form action="<?php echo base_url('auth/wage_import') ?>" method="post"
+          <form action="<?php echo base_url('auth/daily_import') ?>" method="post"
               name="frmExcelImport" id="frmExcelImport" enctype="multipart/form-data">
               <div>
                   <label><h4>选择</h4></label> 

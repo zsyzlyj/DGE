@@ -3070,6 +3070,7 @@ blockquote.pull-right {
 .panel-body.panel-body-table th {
   padding: 8px 10px;
 }
+/*
 .table.table-actions td {
   line-height: 28px;
 }
@@ -3078,6 +3079,7 @@ blockquote.pull-right {
 }
 /* EOF TABLES */
 /* Datatables */
+/*
 .dataTable {
   float: left;
   border-bottom: 1px solid #E5E5E5 !important;
@@ -3218,6 +3220,7 @@ td.dataTables_empty {
   opacity: 0.1;
   filter: alpha(opacity = 10);
 }
+* /
 /* eof Datatables */
 /* icons-list */
 .icons-list {

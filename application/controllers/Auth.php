@@ -9,187 +9,11 @@ class Auth extends Admin_Controller {
 		
 		$this->load->model('model_wage');
 
+		$this->load->model('model_daily_account');
 		$this->data['user_name'] = $this->session->userdata('user_name');
         $this->data['user_id'] = $this->session->userdata('user_id');
 	}
-	/*
-    ============================================================
-    普通员工登录
-    包括：
-    1、login(),系统登录界面
-    2、logout(),返回登录界面
-	3、setting(),修改密码界面
-	4、get_captcha,生成验证码图片
-    ============================================================
-    */ 
-	/* 
-		查看登录的表格是否正确，主要是检查user_id和password是否和数据库的一致
-		根据数据库中的permission设置permission，根据permission确定不同用户登录后界面上的功能
-		permission的值不同分别跳转：
-		0——超级管理员,index
-		1——综管员,admin
-		2——部门负责人，wage
-		3——普通员工,staff
-		4——大区负责人,domain
-	*/
-	/*
-	public function login(){
-		//检测session,若session没有过期则不需要重新登录
-		$this->logged_in();
-		//检测登录页面的各项是否填充
-		$this->form_validation->set_rules('user_id', 'user_id', 'required');
-		$this->form_validation->set_rules('password', 'Password', 'required');
-		$this->form_validation->set_rules('verify_code', 'verify_code', 'required');
-		//若图片存在,则摧毁图片
-		if(array_key_exists('image', $_SESSION)){
-			if(file_exists($_SESSION['image'])){
-				unlink($_SESSION['image']);
-			}
-		}
-		//若登录信息都已填写,则开始校验
-		if ($this->form_validation->run() == TRUE){
-			//登录错误次数
-			$this->data['error_counter']']=$_POST['error_counter'];
-			
-			if(isset($_SESSION['code'])){
-				//首先判断验证码
-				if(strtolower($this->input->post('verify_code'))===strtolower($_SESSION['code']) or $this->input->post('verify_code')=="0"){
-					//验证码正确,则验证登录信息
-					$id_exists = $this->model_auth->check_id(strtoupper($this->input->post('user_id')));
-					if($id_exists == TRUE){
-						$login = $this->model_auth->login($this->input->post('user_id'), $this->input->post('password'));
-						if($login){
-							$log=array(
-								'user_id' => $login['user_id'],
-								'username' => $login['username'],
-								'login_ip' => $_SERVER["REMOTE_ADDR"],
-								'staff_action' => '员工登录',
-								'action_time' => date('Y-m-d H:i:s')
-							);
-							$this->model_log_action->create($log);
-							$logged_in_sess = array(
-								'user_name' => $login['username'],
-								'user_id' => $login['user_id'],
-								'permission' => $login['permission'],
-								'logged_in' => TRUE
-							);
-							$this->data['user_name'] = $login['username'];
-							$this->session->set_userdata($logged_in_sess);
-							redirect('dashboard', 'refresh');
-						}
-						else{
-							if($this->data['error_counter'] == 3){
-								$this->data['errors'] = ' 密码错误3次，请联系管理员后重试';
-								$this->load->view('login', $this->data);
-								$this->data['error_counter']=0;
-							}
-							else{
-								$this->data['error_counter']++;
-								$this->data['errors'] = '密码错误';
-								$this->load->view('login', $this->data);
-							}
-						}
-					}
-					else{
-						$this->data['errors'] = '用户不存在，请联系管理员';
-						$this->load->view('login', $this->data);
-					}
-				}
-				else{
-					$this->data['errors'] = '验证码不正确';
-					$this->load->view('login', $this->data);
-				}
-			}
-			else{// 打开登录界面
-				$this->data['error_counter']=0;
-				$this->load->view('login',$this->data);
-			}
-		}
-		else{// 打开登录界面
-			$this->data['error_counter']=0;
-			$this->load->view('login',$this->data);
-		}
-	}
-	public function logout(){	
-		if(array_key_exists('user_id', $this->data)){
-			if($this->data['user_id']==NULL){
-				$this->session->sess_destroy();
-				redirect('auth/login', 'refresh');
-			}
-		}
-		else{
-			$this->session->sess_destroy();
-			redirect('auth/login', 'refresh');
-		}
-		$log=array(
-			'user_id' => $this->data['user_id'],
-			'username' => $this->data['user_name'],
-			'login_ip' => $_SERVER["REMOTE_ADDR"],
-			'staff_action' => '员工登出',
-			'action_time' => date('Y-m-d H:i:s')
-		);
-		$this->model_log_action->create($log);
-		unset($log);
-		$this->session->sess_destroy();
-		redirect('auth/login', 'refresh');
-	}
-	public function setting(){
-		$id = $this->session->userdata('user_id');
-		$this->data['user_name'] = $this->session->userdata('user_name');
-		if($id){
-			$this->form_validation->set_rules('username', 'username', 'trim|max_length[12]');
-			if ($this->form_validation->run() == TRUE){
-	            // true case
-		        if(empty($this->input->post('opassword'))){
-					$this->session->set_flashdata('error', '修改失败，原密码不能为空');
-					redirect('auth/setting', 'refresh');
-				}
-				elseif(empty($this->input->post('npassword')) && empty($this->input->post('cpassword'))){
-					$this->session->set_flashdata('error', '修改失败，新密码不能为空');
-					redirect('auth/setting', 'refresh');
-				}
-		        else{
-					$this->form_validation->set_rules('opassword', 'Password', 'trim|required');
-					$this->form_validation->set_rules('npassword', 'Password', 'trim|required');
-					$this->form_validation->set_rules('cpassword', 'Confirm password', 'trim|required|matches[npassword]');
-					if($this->form_validation->run() == TRUE){
-						$compare = $this->model_auth->login($id, $this->input->post('opassword'));
-						if($compare){
-							$password = md5($this->input->post('npassword'));
-							$data = array(
-								'username' => $this->input->post('username'),
-								'password' => $password,
-							);
-							$update = $this->model_users->edit($data, $id);	
-							if($update == true){
-								$this->session->set_flashdata('success', '修改成功！');
-								$this->render_template('users/setting', $this->data);
-							}
-							else{
-								$this->session->set_flashdata('error', '遇到未知错误!!');
-								$this->render_template('users/setting', $this->data);
-							}
-						}
-						else{
-							$this->session->set_flashdata('error', '原密码错误');	
-							redirect('auth/setting', 'refresh');
-						}
-					}
-			        else{
-						// false case
-						redirect('auth/setting', 'refresh');
-			        }
-		        }
-	        }
-	        else{
-				// false case
-				$user_data = $this->model_users->getUserData($id);
-				$this->data['user_data'] = $user_data;
-				$this->render_template('users/setting', $this->data);	
-	        }
-		}
-	}
-	*/
+	
 	public function login(){
 		$this->data['name']='';
 		$this->load->view('login',$this->data);
@@ -274,24 +98,182 @@ class Auth extends Admin_Controller {
             if($_FILES["file"]){
                 if($_FILES["file"]["error"] > 0){
                     $this->session->set_flashdata('error', '请选择要上传的文件！');
-                    $this->load->view('wage_import',$this->data);
+                    $this->render_template('wage_import',$this->data);
                 }
                 else{
                     $this->wage_excel_put();
-                    $this->wage();
-					#echo 'success';
+                    redirect('auth/wage','refresh');
 				}
             }
         }
         else{
-            $this->load->view('wage_import',$this->data);
+            $this->render_template('wage_import',$this->data);
         }
 	}
 	public function wage(){
+		$result=array();
+		$attr=array();
 		$user_data=$this->model_wage->getByName('邓敏');
-		#$wage_data=$this->model_wage->getWageByName('邓敏');
+		$daily_data=$this->model_daily_account->getByName('李奕银');
 		$this->data['user_data']=$user_data;
 		$this->data['json_data']=json_encode($user_data);
+		
+		foreach($daily_data->list_fields() as $k => $v){
+			array_push($attr,array('title' => $v));
+		}
+		/**/
+		foreach($daily_data->result_array() as $k => $v){
+			$tmp=array();
+			foreach($v as $a => $b){
+				array_push($tmp,$b);
+			}
+			array_push($result,$tmp);
+			unset($tmp);
+		}
+		
+		$this->data['column_name']=json_encode($attr);
+		$this->data['daily_data']=json_encode($result);
 		$this->render_template('customer_manager',$this->data);
 	}
+	public function excel_put(){
+        $this->load->library('phpexcel');//ci框架中引入excel类
+        $this->load->library('PHPExcel/IOFactory');
+        //先做一个文件上传，保存文件
+        $path=$_FILES['file'];
+        $filePath = 'uploads/'.$path['name'];
+        move_uploaded_file($path['tmp_name'],$filePath);
+        //根据上传类型做不同处理 
+        if(strstr($_FILES['file']['name'],'xlsx')){
+            $reader = new PHPExcel_Reader_Excel2007();
+        }
+        else{
+            if(strstr($_FILES['file']['name'], 'xls')){
+                $reader = IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
+            }
+        }
+
+        $cellName = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ','BA', 'BB', 'BC', 'BD', 'BE', 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW', 'BX', 'BY', 'BZ','CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO', 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ','DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG', 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY', 'DZ'); 
+        $PHPExcel = $reader->load($filePath, 'utf-8'); // 载入excel文件
+        $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+        $highestRow = $sheet->getHighestRow(); // 取得总行数
+        $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+    
+        $columnCnt = array_search($highestColumm, $cellName); 
+
+        $this->model_daily_account->deleteAll();
+        $account_set=array();
+        $user_set=array();
+        $attr=array();
+        for($rowIndex = 1; $rowIndex <= $highestRow; $rowIndex++){        //循环读取每个单元格的内容。注意行从1开始，列从A开始
+            for($colIndex = 0; $colIndex <= $columnCnt; $colIndex++){
+                $cellId = $cellName[$colIndex].$rowIndex;  
+                $cell = $sheet->getCell($cellId)->getValue();
+                $cell = $sheet->getCell($cellId)->getCalculatedValue();
+                if($cell instanceof PHPExcel_RichText){ //富文本转换字符串
+                    $cell = $cell->__toString();
+                }
+                $b=$cell;
+                if($rowIndex==1){
+                    array_push($attr,$b);
+                }
+                elseif($rowIndex>1){
+                    switch($attr[$colIndex]){
+                        case 'ACCT_MONTH':$date_tag=$b;break;
+                        case 'USER_NO':$user_id=$b;break;
+                        case 'DEVICE_NUMBER':$phone_number=$b;break;
+                        case 'CHARGE':$charge=$b;break;
+                        case 'DEPT_NO':$dept_id=$b;break;
+                        case 'FGS':$fgs=$b;break;
+                        case 'PRODUCT_ID':$product_id=$b;break;
+                        case 'PRODUCT_NAME':$product_name=$b;break;
+                        case 'DEVELOP_STAFF_ID':$staff_id=$b;break;
+                        case 'STAFF_NAME':$staff_name=$b;break;
+                        case 'LX':$account_type=$b;break;
+                        case 'DEVLOP_DEPART':$develop_dept=$b;break;
+                        case 'VPN_NO':$vip_id=$b;break;
+                        case 'JTMC':$vip_name=$b;break;
+                        case 'ACTION_NAME':$activity=$b;break;
+                        case 'RECV_TIME':$activity_date=$b;break;
+                        case 'IN_DATE':$in_time=$b;break;
+                        case 'STATE_NAME':$status=$b;break;
+                        case 'CUST_NAME':$customer_name=$b;break;
+                        case 'RWNY':$in_date=$b;break;
+                        case 'YWLX':$celler_type1=$b;break;
+                        case 'YWLX2':$celler_type2=$b;break;
+                        case 'PROLX':$celler_product_type=$b;break; 
+                        default:break;
+                        #case 'STATE_NAME':$status=gmdate('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($b));break;
+                    }
+                }
+            }
+            if($rowIndex>1){
+                //新建账单对象
+                $row_data=array(
+                    'date_tag' => $date_tag,
+                    'user_id' => $user_id,
+                    'phone_number' => $phone_number,
+                    'charge' => $charge,
+                    'dept_id' => $dept_id,
+                    'fgs' => $fgs,
+                    'product_id' => $product_id,
+                    'product_name' => $product_name,
+                    'staff_id' => $staff_id,
+                    'staff_name' => $staff_name,
+                    'account_type' => $account_type,
+                    'develop_dept' => $develop_dept,
+                    'vip_id' => $vip_id,
+                    'vip_name' => $vip_name,
+                    'activity' => $activity,
+                    'activity_date' => $activity_date,
+                    'in_time' => $in_time,
+                    'in_date' => $in_date,
+                    'status' => $status,
+                    'customer_name' => $customer_name,
+                    'celler_type1' => $celler_type1,
+                    'celler_type2' => $celler_type2,
+                    'celler_product_type' => $celler_product_type
+                );
+                array_push($account_set,$row_data);
+                unset($row_data);
+                /*
+                //新建登陆用户
+                //如果数据库中没有这个用户，那么就创建记录，否则不做任何事
+                if(!$this->model_users->checkUserById($user_id)){
+                    #$this->model_users->update();
+                    $user_data=array(
+                        'username' => $name,
+                        'user_id' => $user_id,
+                        'password' => md5(substr($user_id,-6)),
+                        'permission' => 3,
+                    );
+                    array_push($user_set,$user_data);
+                    unset($user_data);
+                }
+                */
+            }
+        }
+
+        $this->model_daily_account->createbatch($account_set);
+        #$this->model_users->createbatch($user_set);
+        
+        unset($wage_set);
+        #unset($user_set);
+    }
+    public function daily_import($filename=NULL){
+        if($_FILES){
+            if($_FILES['file']){
+                if($_FILES['file']['error'] > 0){
+                    $this->session->set_flashdata('error', '请选择要上传的文件！');
+                    $this->render_template('daily_import',$this->data);
+                }
+                else{
+                    $this->excel_put();
+                    redirect('auth/wage','refresh');
+                }
+            }
+        }
+        else{
+            $this->render_template('daily_import',$this->data);
+        } 
+    }
 }

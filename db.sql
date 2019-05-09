@@ -51,6 +51,7 @@ CREATE TABLE `daily_account` (
   `celler_type1` varchar(50) NOT NULL COMMENT '移网类型1',
   `celler_type2` varchar(50) NOT NULL COMMENT '移网类型2',   
   `celler_product_type` varchar(50) NOT NULL COMMENT '产品大类'
+  `date_tag` varchar(20) NOT NULL COMMENT '时间戳',
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 
 
