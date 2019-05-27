@@ -110,7 +110,7 @@ function line_chart(mdata)
 
 
 
-
+/*
 function show_table(mdata)
 {
   if(table)
@@ -125,7 +125,7 @@ function show_table(mdata)
     "columns": mdata["columns"]
   });
 }
-
+*/
 $("#get_time_data0").click(function(){
 var data1={"data_time":0,"data_kind":"业务"};
 $.post("",data1,function(data) {
@@ -214,7 +214,7 @@ $.post("",data1,function(data) {
 
 $(document).ready(function() {
   
-  var wage_data=JSON.parse(document.getElementById("user_data").value);
+  //var wage_data=JSON.parse(document.getElementById("user_data").value);
   var daily_data=JSON.parse(document.getElementById("daily_data").value);
   var column_name=JSON.parse(document.getElementById("column_name").value);
   console.log(column_name);
@@ -227,7 +227,7 @@ $(document).ready(function() {
             "data":{"业务":[49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
                       '薪酬': [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
                       }};
-
+/*
   var mdata3={"id":'container3',"title":'各业务提成占比',"series":[{name: 'Brands',colorByPoint: true,
             data: [
               {name: '预付费',y: Number(wage_data['yff_charge'])},
@@ -241,7 +241,7 @@ $(document).ready(function() {
               {name: '其他4',y: Number(wage_data['other4'])}
             ]}
           ]};
-
+*/
   var mdata4={"id":'container4',"title":'本月业务开展情况',"series":[{name: 'Brands',colorByPoint: true,
             data: [{ name: '业务1',y: 61.41, sliced: true,selected: true}, { name: '业务2 ',y: 11.84}, 
                   { name: '业务3', y: 10.85}, { name: '业务4',y: 4.67}, { name: '业务5',y: 4.18}, { name: '业务6',y: 1.64}, 
@@ -274,15 +274,18 @@ $(document).ready(function() {
           "sSortAscending": ": 以升序排列此列",
           "sSortDescending": ": 以降序排列此列"
       }
-    },
+    }
+    /
+    /*
     "scrollX":true,
     "columns": mdata5["columns"],
     "data": mdata5["data"]    
+    */
   });
   ////test
   //part_of_all_pie(mdata1);
   //part_of_all_pie(mdata2);
-  part_of_all_pie(mdata3);
+  //part_of_all_pie(mdata3);
   //line_chart(mdata4);
   //show_table(mdata5);
   ////test

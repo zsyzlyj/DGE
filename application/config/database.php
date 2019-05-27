@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
 	'username' => 'root',
-	'password' => 'ZHENGQI',
+	'password' => 'zhengqi',
 	#'password' => 'root',
 	'database' => 'dge',
 	'dbdriver' => 'mysqli',
@@ -95,22 +95,30 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+$tnsname='(DESCRIPTION =
+(ADDRESS_LIST =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = 127.0.0.1)(PORT = 1521))
+)
+(CONNECT_DATA =
+  (SERVICE_NAME = orcl)
+)
+)';
 $db['oracle'] = array(
 	'dsn'	=> '',
-	'hostname' => '130.52.199.240',
-	'port' => '1521',
-	'username' => 'root',
-	'password' => 'ZHENGQI',
+	'hostname' => $tnsname,
+	#'port' => '1521',
+	'username' => 'c##zhengqi',
+	'password' => 'Zhengqi123',
 	#'password' => 'root',
-	'database' => 'dge',
+	'database' => '',
 	'dbdriver' => 'oci8',
 	'dbprefix' => '',
-	'pconnect' => FALSE,
+	'pconnect' => TRUE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',
-	'dbcollat' => 'utf8_general_ci',
+	#'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
 	'encrypt' => FALSE,
 	'compress' => FALSE,
@@ -118,3 +126,29 @@ $db['oracle'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+/*
+$db['oracle'] = array(
+	'dsn'	=> '',
+	'hostname' => '130.52.199.240',
+	#'port' => '1521',
+	'username' => 'cl2',
+	'password' => 'cl2_20160202',
+	#'password' => 'root',
+	'database' => '',
+	'dbdriver' => 'oci8',
+	'dbprefix' => '',
+	'pconnect' => TRUE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	#'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+*/

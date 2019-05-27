@@ -15,6 +15,7 @@ class Admin_Controller extends MY_Controller
 	public function __construct() 
 	{
 		parent::__construct();
+		/*
 		if(empty($this->session->userdata('logged_in_super'))){
 			$session_data = array('logged_in_super' => FALSE);
 			$this->session->set_userdata($session_data);
@@ -38,7 +39,9 @@ class Admin_Controller extends MY_Controller
 		$this->load->model('model_log_action');
 		#$this->session->set_flashdata('success', '');
 		#$this->session->set_flashdata('error', '');
+		*/
 	}
+	/*
 	public function logged_in_super(){
 		$session_data = $this->session->userdata();
 		if($session_data['logged_in_super'] == TRUE){
@@ -71,7 +74,7 @@ class Admin_Controller extends MY_Controller
 			redirect('login', 'refresh');
 		}
 	}
-	
+	*/
 	public function render_template($page = null, $data = array()){
 		$this->load->view('templates/header',$data);
 		$this->load->view('templates/header_menu',$data);

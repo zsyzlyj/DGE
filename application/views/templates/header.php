@@ -12,15 +12,22 @@
   <title>中国联通中山分公司薪酬系统</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="<?php echo base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
+  <link href="<?php echo base_url('assets/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
 
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <!--
   <link href="<?php echo base_url('assets/css/ie10-viewport-bug-workaround.css') ?>" rel="stylesheet">
+  -->
   <!-- login -->
+  <!--
   <link href="<?php echo base_url('assets/css/default.css') ?>" rel="stylesheet">
+  
+  -->
   <link href="<?php echo base_url('assets/css/navcss/carousel.css') ?>" rel="stylesheet">
-  <link href="<?php echo base_url('assets/css/jquery.dataTables.min.css') ?>" rel="stylesheet">
+  <!--<link href="<?php echo base_url('assets/css/jquery.dataTables.min.css') ?>" rel="stylesheet">-->
+  <link rel="stylesheet" href="<?php echo base_url('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') ?>">
   <link href="<?php echo base_url('assets/css/page/pager.css') ?>" rel="stylesheet">
+
   <!-- Custom styles for this template -->
   <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
   <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js') ?>"></script><![endif]-->

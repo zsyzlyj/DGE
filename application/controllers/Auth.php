@@ -7,12 +7,14 @@ class Auth extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('model_auth');
 		
-		$this->load->model('model_wage');
-
+        $this->load->model('model_wage');
+        $this->load->model('model_wage_oracle');
+        
 		$this->load->model('model_daily_account');
 		$this->data['user_name'] = $this->session->userdata('user_name');
         $this->data['user_id'] = $this->session->userdata('user_id');
-	}
+        
+    }
 	
 	public function login(){
 		$this->data['name']='';
@@ -113,15 +115,18 @@ class Auth extends Admin_Controller {
 	public function wage(){
 		$result=array();
 		$attr=array();
-		$user_data=$this->model_wage->getByName('邓敏');
-		$daily_data=$this->model_daily_account->getByName('李奕银');
+		$user_data=$this->model_wage->getByName('侯锡坚');
+		#$daily_data=$this->model_daily_account->getByName('李奕银');
 		$this->data['user_data']=$user_data;
 		$this->data['json_data']=json_encode($user_data);
-		
-		foreach($daily_data->list_fields() as $k => $v){
+		#echo var_dump($this->model_wage_oracle->getDailyData('5104224673','201303'));
+        $daily_data=$this->model_wage_oracle->getDailyData('5102458639','201804');
+        
+        /*
+        foreach($daily_data->list_fields() as $k => $v){ 
 			array_push($attr,array('title' => $v));
 		}
-		/**/
+
 		foreach($daily_data->result_array() as $k => $v){
 			$tmp=array();
 			foreach($v as $a => $b){
@@ -130,10 +135,12 @@ class Auth extends Admin_Controller {
 			array_push($result,$tmp);
 			unset($tmp);
 		}
-		
-		$this->data['column_name']=json_encode($attr);
-		$this->data['daily_data']=json_encode($result);
-		$this->render_template('customer_manager',$this->data);
+		*/		
+		#$this->data['column_name']=json_encode($attr);
+		#$this->data['daily_data']=json_encode($result);
+        $this->data['column_name']=$daily_data->list_fields();
+		$this->data['daily_data']=$result;
+        $this->render_template('customer_manager',$this->data);
 	}
 	public function excel_put(){
         $this->load->library('phpexcel');//ci框架中引入excel类

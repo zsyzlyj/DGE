@@ -54,7 +54,7 @@
               <th style="border-color:silver;text-align:center"><h4>后付费提成</h4></th>
               <th style="border-color:silver;text-align:center"><h4>固网提成</h4></th>
               <th style="border-color:silver;text-align:center"><h4>存量提成</h4></th>
-              <th style="border-color:silver;text-align:center"><h4>QF提成</h4></th>
+              <th style="border-color:silver;text-align:center"><h4>欠费</h4></th>
               <th style="border-color:silver;text-align:center"><h4>其他1</h4></th>
               <th style="border-color:silver;text-align:center"><h4>其他2</h4></th>
               <th style="border-color:silver;text-align:center"><h4>其他3</h4></th>
@@ -91,6 +91,7 @@
               <li><a href="#tab-second" role="tab" data-toggle="tab">提成占比</a></li>
               <li><a href="#tab-third" role="tab" data-toggle="tab">消息<span class="badge badge-info">0</span></a></li>
             </ul>
+            
             <div class="panel-body tab-content">
               <div class="tab-pane active" id="tab-first">
                 <div class="row">
@@ -99,23 +100,33 @@
                 </div>
                 <div class="panel panel-info">
                   <div class="panel-heading">
-                      <h3 class="panel-title">业务明细</h3>
-                    <div class="pull-right">
-                      <button type="button" id="get_time_data0" class="btn btn-success btn-rounded">本月</button>
-                      <button type="button" id="get_time_data1"  class="btn btn-primary btn-rounded">上个月</button>
-                      <button type="button" id="get_time_data2"  class="btn btn-primary btn-rounded">近三个月</button>
-                      <button type="button" id="get_time_data3"  class="btn btn-primary btn-rounded">近五个月</button>
-                      <button type="button" id="get_time_data4"  class="btn btn-primary btn-rounded">近半年</button>
-                      <button type="button" id="get_time_data5"  class="btn btn-primary btn-rounded">近一年</button>
-                    </div>
+                      <h3 class="panel-title">账单明细</h3>
                   </div>
                 </div>
+                <?php if($column_name!=null):?>
                 <table id="daily_table" class="table table-striped table-bordered table-responsive" style="white-space:nowrap;text-align:center;">
+                <thead>
+                  <tr>
+                  <?php foreach($column_name as $k => $v):?>
+                  <td><?php echo $v;?></td>
+                  <?php endforeach;?>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php foreach($daily_data as $k => $v): ?>
+                  <tr>
+                    <?php foreach($v as $a => $b):?>
+                    <td><?php echo $b;?></td>
+                    <?php endforeach;?>
+                  </tr>
+                  <?php endforeach;?>
+                </tbody>
                 </table>
+                <?php endif;?>
               </div>
               <div class="tab-pane" id="tab-second">
                 <div class="row">
-                 <div id="container3"></div>     
+                 <div id="container3"></div>
                </div>
                 <div class="row">
                  <div id="container4"></div>
